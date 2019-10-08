@@ -1,0 +1,27 @@
+body {
+  color: #333;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  font-family: PingFangSC-Regular;
+}
+html, body, div, span, i, ul, li, img, button, h2, h3, h4, h5 {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.el-table {
+  margin-top: 20px;
+}
+.table-header th {
+  background: #F2F6FC !important;
+}
+.pagination-box {
+  text-align: right;
+  margin-top: 20px;
+}
+.el-form .el-input--medium .el-input__inner {
+  width: 400px;
+}
+.el-form--inline .el-input--medium .el-input__inner {
+  width: 180px;
+}

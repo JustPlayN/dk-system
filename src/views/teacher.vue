@@ -1,0 +1,157 @@
+<template>
+  <div class="teacher">
+    <el-form ref="searchForm" :inline="true" :model="searchObj" label-width="120px" size="medium">
+      <el-form-item label="老师姓名：" prop="userName">
+        <el-input v-model="searchObj.userName"></el-input>
+      </el-form-item>
+      <el-form-item label="老师手机号：" prop="userPhone">
+        <el-input v-model="searchObj.userPhone"></el-input>
+      </el-form-item>
+      <el-form-item label="所属单位：" prop="companyId">
+        <el-select v-model="searchObj.companyId" clearable placeholder="请选择">
+          <el-option
+            v-for="item in companyList"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="年级：" prop="gradeId">
+        <el-select v-model="searchObj.gradeId" clearable placeholder="请选择">
+          <el-option
+            v-for="item in gradeList"
+            :key="item.id"
+            :label="item.name"
+            :value="item.id">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="search">搜索</el-button>
+        <el-button @click="reset">重置</el-button>
+      </el-form-item>
+    </el-form>
+    <el-row>
+      <el-button type="primary" @click="search" size="medium">批量导入</el-button>
+    </el-row>
+    <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
+      <el-table-column prop="id" label="老师id"></el-table-column>
+      <el-table-column prop="userName" label="老师姓名"></el-table-column>
+      <el-table-column prop="userPhone" label="老师手机号"></el-table-column>
+      <el-table-column prop="companyName" label="所在单位"></el-table-column>
+      <el-table-column prop="gradeName" label="年级"></el-table-column>
+      <el-table-column prop="className" label="班级"></el-table-column>
+      <el-table-column prop="pwd" label="登录小程序密码"></el-table-column>
+    </el-table>
+    <el-row class="pagination-box">
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="page.currentPage"
+        :page-sizes="page.pageSizes"
+        :page-size="page.pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="page.total">
+      </el-pagination>
+    </el-row>
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from 'vuex'
+export default {
+  data () {
+    return {
+      searchObj: {
+        userName: '',
+        userPhone: '',
+        companyId: '',
+        gradeId: ''
+      },
+      companyList: [],
+      gradeList: [],
+      tableData: []
+    }
+  },
+  computed: {
+    ...mapGetters(['page'])
+  },
+  methods: {
+    ...mapActions(['putPage']),
+    search () {
+      this.putPage({ currentPage: 1 })
+      this.getDataList()
+    },
+    reset () {
+      this.$refs['searchForm'].resetFields()
+      this.search()
+    },
+    click (obj) {
+      console.log(obj)
+    },
+    handleSizeChange (val) {
+      if (val !== this.page.pageSize) {
+        this.putPage({ pageSize: val })
+        this.search()
+      }
+    },
+    handleCurrentChange (val) {
+      if (val !== this.page.currentPage) {
+        this.putPage({ currentPage: val })
+        this.getDataList()
+      }
+    },
+    getDataList () {
+      this.$api.post('/physical-report/teacher/list', {
+        data: {
+          userName: this.search.userName || null,
+          userPhone: this.search.userPhone || null,
+          companyId: this.search.companyId || null,
+          gradeId: this.search.gradeId || null
+        },
+        page: {
+          currentPage: this.page.currentPage,
+          pageSize: this.page.pageSize
+        }
+      }).then(res => {
+        if (res.code === '00000') {
+          this.tableData = res.data
+          this.putPage({ total: res.page.count })
+        } else {
+          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
+    },
+    getGradeList () {
+      this.$api.post('/physical-report/class/list', {
+        data: 0
+      }).then(res => {
+        if (res.code === '00000') {
+          this.gradeList = res.data
+        } else {
+          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
+    },
+    getCompanyList () {
+      this.$api.post('/physical-report/class/list', {
+        data: 0
+      }).then(res => {
+        if (res.code === '00000') {
+          this.gradeList = res.data
+        } else {
+          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
+    }
+  },
+  created () {
+    this.getDataList()
+    this.getGradeList()
+  }
+}
+</script>
+
+<style lang="less" scoped>
+</style>
