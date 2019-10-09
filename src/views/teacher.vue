@@ -2,29 +2,19 @@
   <div class="teacher">
     <el-form ref="searchForm" :inline="true" :model="searchObj" label-width="120px" size="medium">
       <el-form-item label="老师姓名：" prop="userName">
-        <el-input v-model="searchObj.userName"></el-input>
+        <el-input v-model.trim="searchObj.userName" clearable></el-input>
       </el-form-item>
       <el-form-item label="老师手机号：" prop="userPhone">
-        <el-input v-model="searchObj.userPhone"></el-input>
+        <el-input v-model.trim="searchObj.userPhone" clearable></el-input>
       </el-form-item>
       <el-form-item label="所属单位：" prop="companyId">
-        <el-select v-model="searchObj.companyId" clearable placeholder="请选择">
-          <el-option
-            v-for="item in companyList"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value">
-          </el-option>
+        <el-select v-model="searchObj.companyId" clearable placeholder="请选择" @change="change">
+          <el-option v-for="item in companyList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="年级：" prop="gradeId">
-        <el-select v-model="searchObj.gradeId" clearable placeholder="请选择">
-          <el-option
-            v-for="item in gradeList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
+        <el-select v-model="searchObj.gradeId" clearable placeholder="请选择" :disabled="!searchObj.companyId">
+          <el-option v-for="item in gradeList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -102,13 +92,21 @@ export default {
         this.getDataList()
       }
     },
+    change (value) {
+      if (value) {
+        this.getGradeList()
+      } else {
+        this.companyList = []
+        this.companyId = ''
+      }
+    },
     getDataList () {
       this.$api.post('/physical-report/teacher/list', {
         data: {
-          userName: this.search.userName || null,
-          userPhone: this.search.userPhone || null,
-          companyId: this.search.companyId || null,
-          gradeId: this.search.gradeId || null
+          userName: this.searchObj.userName || null,
+          userPhone: this.searchObj.userPhone || null,
+          companyId: this.searchObj.companyId || null,
+          gradeId: this.searchObj.gradeId || null
         },
         page: {
           currentPage: this.page.currentPage,
@@ -125,7 +123,7 @@ export default {
     },
     getGradeList () {
       this.$api.post('/physical-report/class/list', {
-        data: 0
+        data: this.searchObj.companyId
       }).then(res => {
         if (res.code === '00000') {
           this.gradeList = res.data
@@ -139,7 +137,7 @@ export default {
         data: 0
       }).then(res => {
         if (res.code === '00000') {
-          this.gradeList = res.data
+          this.companyList = res.data
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
@@ -148,7 +146,7 @@ export default {
   },
   created () {
     this.getDataList()
-    this.getGradeList()
+    this.getCompanyList()
   }
 }
 </script>

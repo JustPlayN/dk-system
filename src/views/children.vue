@@ -13,24 +13,17 @@
       <el-form-item label="家长手机号：" prop="parentPhone">
         <el-input v-model="searchObj.parentPhone"></el-input>
       </el-form-item>
-      <el-form-item label="家长手机号：" prop="teacherPhone">
+      <el-form-item label="老师手机号：" prop="teacherPhone">
         <el-input v-model="searchObj.teacherPhone"></el-input>
       </el-form-item>
-      <el-form-item label="所属单位" prop="schoolId">
-        <el-select v-model="searchObj.schoolId" clearable placeholder="请选择">
-          <el-option label="1岁" :value="1"></el-option>
-          <el-option label="2岁" :value="2"></el-option>
-          <el-option label="3岁" :value="3"></el-option>
+      <el-form-item label="所属单位" prop="schoolId" @change="change">
+        <el-select v-model="searchObj.schoolId" clearable placeholder="请选择" @change="change">
+          <el-option v-for="item in companyList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="年级：" prop="gradeId">
-        <el-select v-model="searchObj.gradeId" clearable placeholder="请选择">
-          <el-option
-            v-for="item in gradeList"
-            :key="item.id"
-            :label="item.name"
-            :value="item.id">
-          </el-option>
+        <el-select v-model="searchObj.gradeId" clearable placeholder="请选择" :disabled="!searchObj.schoolId">
+          <el-option v-for="item in gradeList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="年龄：" prop="beginAge">
@@ -108,7 +101,8 @@ export default {
         gradeId: ''
       },
       tableData: [],
-      gradeList: []
+      gradeList: [],
+      companyList: []
     }
   },
   computed: {
@@ -139,6 +133,14 @@ export default {
         this.getDataList()
       }
     },
+    change (value) {
+      if (value) {
+        this.getGradeList()
+      } else {
+        this.companyList = []
+        this.schoolId = ''
+      }
+    },
     getDataList () {
       this.$api.post('/physical-report/student/list', {
         data: {
@@ -166,7 +168,7 @@ export default {
     },
     getGradeList () {
       this.$api.post('/physical-report/class/list', {
-        data: 0
+        data: this.searchObj.schoolId
       }).then(res => {
         if (res.code === '00000') {
           this.gradeList = res.data
@@ -175,10 +177,21 @@ export default {
         }
       })
     },
+    getCompanyList () {
+      this.$api.post('/physical-report/class/list', {
+        data: 0
+      }).then(res => {
+        if (res.code === '00000') {
+          this.companyList = res.data
+        } else {
+          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
+    },
   },
   created () {
     this.getDataList()
-    this.getGradeList()
+    this.getCompanyList()
   }
 }
 </script>

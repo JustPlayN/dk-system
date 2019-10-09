@@ -18,14 +18,14 @@
     
     <el-container class="inside-container">
       <el-header class="header">
-        <el-dropdown>
+        <!-- <el-dropdown>
           <i class="el-icon-setting"></i>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item>查看</el-dropdown-item>
             <el-dropdown-item>新增</el-dropdown-item>
             <el-dropdown-item>删除</el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown> -->
         <span class="name">王小虎</span>
       </el-header>
       
@@ -34,17 +34,17 @@
       </el-main>
     </el-container>
   </el-container>
-  <login v-else @login="isLogin = true" />
+  <login v-else />
 </template>
 <script>
 import Login from './components/Login'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     Login
   },
   data () {
     return {
-      isLogin: !!this.$utils.getCookie('token'),
       menuList: [{
         title: '数据仪表盘',
         router: '',
@@ -95,11 +95,22 @@ export default {
       }]
     }
   },
+  computed: {
+    ...mapGetters(['isLogin'])
+  },
   methods: {
     routerTo (obj) {
-      this.$router.push({
+      this.$router.replace({
         path: obj.router
       })
+    }
+  },
+  created () {
+    let token = this.$utils.getCookie('token')
+    if (token) {
+      this.$store.dispatch('putIsLogin', true)
+    } else {
+      this.$store.dispatch('putIsLogin', false)
     }
   }
 }

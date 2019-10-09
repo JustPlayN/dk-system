@@ -1,13 +1,18 @@
 import axios from 'axios'
+import utils from './utils'
+import store from '../store'
 
 let request = axios.create()
 request.defaults.withCredentials = true
 request.interceptors.response.use((response) => {
   let res = response.data
-  if (res.code === 0) {
+  if (res.code === '00000') {
     return res
-  } else if (res.status && res.status.code === 401) {
-    // 登录
+  } else if (res.code === '00003') {
+    utils.setCookie('token', '')
+    utils.setCookie('roleId', '')
+    utils.setCookie('userName', '')
+    store.dispatch('putIsLogin', false)
   } else {
     return res
   }

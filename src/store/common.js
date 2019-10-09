@@ -7,7 +7,8 @@ const state = {
     pageSizes: [10, 20, 30, 40],
     total: 0,
   },
-  cityList: []
+  cityList: [],
+  isLogin: true
 }
 
 const mutations = {
@@ -19,6 +20,9 @@ const mutations = {
   },
   putCityList (state, value) {
     state.cityList = value
+  },
+  putIsLogin (state, value) {
+    state.isLogin = value
   }
 }
 
@@ -36,11 +40,13 @@ const actions = {
     })
     commit('putCityList', value)
   },
+  putIsLogin: ({ commit }, value) => commit('putIsLogin', value),
 }
 
 const getters = {
   page: state => state.page,
-  cityList: state => state.cityList
+  cityList: state => state.cityList,
+  isLogin: state => state.isLogin,
 }
 
 export default {

@@ -22,7 +22,7 @@ export default {
     login () {
       this.$api.post('/physical-report/login', {
         data: {
-          pwd: '6001' || this.password,
+          pwd: '6000' || this.password,
           phone: '15757116000' || this.phone
         }
       }).then(res => {
@@ -31,10 +31,10 @@ export default {
             message: '登录成功',
             type: 'success'
           })
-          this.$emit('login')
           this.$utils.setCookie('roleId', res.data.roleId, 86400)
           this.$utils.setCookie('token', res.data.token, 86400)
           this.$utils.setCookie('userName', res.data.userName, 86400)
+          this.$store.dispatch('putIsLogin', true)
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }

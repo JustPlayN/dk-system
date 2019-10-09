@@ -8,6 +8,9 @@ import utils from './utils/utils'
 // css
 import './assets/css/common.css'
 
+// filters
+import '@/utils/filters'
+
 // ElementUI 全局引入
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
