@@ -18,7 +18,7 @@
       </el-form-item>
     </el-form>
     <el-row>
-      <el-button type="primary" @click="search" size="medium">新增商户</el-button>
+      <el-button type="primary" @click="click()" size="medium">新增商户</el-button>
     </el-row>
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
       <el-table-column prop="id" label="商户id" width="70px"></el-table-column>
@@ -31,8 +31,8 @@
       <el-table-column prop="pwd" label="商户后台密码" width="120px"></el-table-column>
       <el-table-column label="操作" width="180px">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="click(scope.row)">查看</el-button>
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button type="text" size="small" @click="click(scope.row.id, 1)">查看</el-button>
+          <el-button type="text" size="small" @click="click(scope.row.id)">编辑</el-button>
           <el-button type="text" size="small">删除</el-button>
           <el-button type="text" size="small">绑定设备</el-button>
         </template>
@@ -78,8 +78,11 @@ export default {
       this.$refs['searchForm'].resetFields()
       this.search()
     },
-    click (obj) {
-      console.log(obj)
+    click (id, type) {
+      this.$router.push({
+        path: '/addMerchant',
+        query: { id, type }
+      })
     },
     handleSizeChange (val) {
       if (val !== this.page.pageSize) {

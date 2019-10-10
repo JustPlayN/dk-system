@@ -22,8 +22,8 @@ export default {
     login () {
       this.$api.post('/physical-report/login', {
         data: {
-          pwd: '6000' || this.password,
-          phone: '15757116000' || this.phone
+          pwd: this.password,
+          phone: this.phone
         }
       }).then(res => {
         if (res.code === '00000') {
@@ -31,6 +31,7 @@ export default {
             message: '登录成功',
             type: 'success'
           })
+          this.$utils.setCookie('phone', this.phone, 86400)
           this.$utils.setCookie('roleId', res.data.roleId, 86400)
           this.$utils.setCookie('token', res.data.token, 86400)
           this.$utils.setCookie('userName', res.data.userName, 86400)

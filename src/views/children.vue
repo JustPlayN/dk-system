@@ -16,7 +16,7 @@
       <el-form-item label="老师手机号：" prop="teacherPhone">
         <el-input v-model="searchObj.teacherPhone"></el-input>
       </el-form-item>
-      <el-form-item label="所属单位" prop="schoolId" @change="change">
+      <el-form-item label="所属单位" prop="schoolId">
         <el-select v-model="searchObj.schoolId" clearable placeholder="请选择" @change="change">
           <el-option v-for="item in companyList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>

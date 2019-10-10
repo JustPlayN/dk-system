@@ -22,6 +22,9 @@ html, body, div, span, i, ul, li, img, button, h2, h3, h4, h5 {
 .el-form .el-input--medium .el-input__inner {
   width: 400px;
 }
+.el-form .el-input--medium .el-textarea__inner {
+  width: 400px;
+}
 .el-form--inline .el-input--medium .el-input__inner {
   width: 180px;
 }

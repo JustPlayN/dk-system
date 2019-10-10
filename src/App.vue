@@ -18,14 +18,12 @@
     
     <el-container class="inside-container">
       <el-header class="header">
-        <!-- <el-dropdown>
+        <el-dropdown @command="signout">
           <i class="el-icon-setting"></i>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>查看</el-dropdown-item>
-            <el-dropdown-item>新增</el-dropdown-item>
-            <el-dropdown-item>删除</el-dropdown-item>
+            <el-dropdown-item>退出登录</el-dropdown-item>
           </el-dropdown-menu>
-        </el-dropdown> -->
+        </el-dropdown>
         <span class="name">王小虎</span>
       </el-header>
       
@@ -103,6 +101,10 @@ export default {
       this.$router.replace({
         path: obj.router
       })
+    },
+    signout () {
+      this.$utils.setCookie('token', '')
+      this.$store.dispatch('putIsLogin', false)
     }
   },
   created () {
