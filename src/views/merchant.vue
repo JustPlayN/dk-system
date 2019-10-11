@@ -34,7 +34,7 @@
           <el-button type="text" size="small" @click="click(scope.row.id, 1)">查看</el-button>
           <el-button type="text" size="small" @click="click(scope.row.id)">编辑</el-button>
           <el-button type="text" size="small">删除</el-button>
-          <el-button type="text" size="small">绑定设备</el-button>
+          <el-button type="text" size="small" @click="bind(scope.row)">绑定设备</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,6 +82,16 @@ export default {
       this.$router.push({
         path: '/addMerchant',
         query: { id, type }
+      })
+    },
+    bind (obj) {
+      this.$router.push({
+        path: '/bind',
+        query: {
+          id: obj.id,
+          userName: encodeURIComponent(obj.userName),
+          companyName: encodeURIComponent(obj.companyName)
+        }
       })
     },
     handleSizeChange (val) {

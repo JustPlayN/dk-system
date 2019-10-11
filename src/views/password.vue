@@ -1,6 +1,6 @@
 <template>
   <div class="setting">
-    <el-form ref="searchForm" label-width="240px" size="medium">
+    <el-form class="not-inline" ref="searchForm" label-width="240px" size="medium">
       <el-form-item label="登录手机号：" prop="name" required>
         {{userInfo.phone}}
       </el-form-item>

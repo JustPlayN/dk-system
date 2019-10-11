@@ -1,6 +1,6 @@
 <template>
   <div class="setting">
-    <el-form ref="elForm" :rules="rules" :model="userInfo" label-width="240px" size="medium">
+    <el-form class="not-inline" ref="elForm" :rules="rules" :model="userInfo" label-width="240px" size="medium">
       <el-form-item label="姓名：" prop="userName">
         <el-input v-model.trim="userInfo.userName"></el-input>
       </el-form-item>

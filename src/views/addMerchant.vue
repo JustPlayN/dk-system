@@ -1,6 +1,6 @@
 <template>
   <div class="add-merchant">
-    <el-form ref="merchantForm" :rules="rules" :model="merchant" label-width="240px" size="medium">
+    <el-form class="not-inline" ref="merchantForm" :rules="rules" :model="merchant" label-width="240px" size="medium">
       <el-form-item label="姓名：" prop="userName">
         <el-input v-model.trim="merchant.userName" :disabled="disabled"></el-input>
       </el-form-item>
@@ -35,6 +35,18 @@
       <el-form-item label="备注：" prop="addr">
         <el-input type="textarea" :rows="2" placeholder="请输入内容" :disabled="disabled" v-model.trim="merchant.remark" width="400px"></el-input>
       </el-form-item>
+      <el-form-item label="绑定设备：" prop="equipments">
+        <el-checkbox-group v-model="checkList">
+          <div v-for="(e, index) in equipments" :key="e.id" class="equip-row">
+            <div style="width: 200px">
+              <el-checkbox :label="index">{{e.deviceType}}</el-checkbox><br>
+            </div>
+            <div>
+              <el-input-number class="input-number" width="100px" size="mini" :min="1" v-model="e.number"></el-input-number>
+            </div>
+          </div>
+        </el-checkbox-group>
+      </el-form-item>
       <el-form-item v-if="disabled">
         <el-button type="primary" @click="$router.back()">返回</el-button>
       </el-form-item>
@@ -60,12 +72,15 @@ export default {
         areaId: '',
         addr: '',
         remark: '',
-        companyName: ''
+        companyName: '',
+        checkList: []     // 后端返回选中的设备及数量
       },
       provinceList: [],
       cityList: [],
       areaList: [],
       companyList: [],
+      equipments: [],
+      checkList: [],      // 选中的设备在equipmens中的下标index
       rules: {
         userName: [
           { required: true, message: '请输入姓名', trigger: 'blur' }
@@ -134,6 +149,35 @@ export default {
         }
       })
     },
+    getEquipments () {
+      this.$api.post('/physical-report/device/attribute/list', {
+        data: {}
+      }).then(res => {
+        if (res.code === '00000') {
+          let eObj = {}
+          this.merchant.checkList = [{ id: 1, number: 2 }, { id: 2, number: 6 }]
+          this.merchant.checkList.map(a => {        // 已选中的设备已id为key，nubmer为value转为Object
+            eObj[a.id] = a.number
+          })
+          this.equipments = res.data.map((item, index) => {
+            if (eObj[item.id]) {                    // 此设备是否被选中
+              this.checkList.push(index)
+              return {
+                ...item,
+                number: eObj[item.id]
+              }
+            } else {
+              return {
+                ...item,
+                number: 1
+              }
+            }
+          })
+        } else {
+          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
+    },
     getMerchantInfo () {
       let id = this.$route.query.id
       if (!id) {
@@ -152,6 +196,13 @@ export default {
       })
     },
     editMerchant () {
+      let list = this.checkList.map(i => {
+        return {
+          id: this.equipments[i].id,
+          number: this.equipments[i].number
+        }
+      })
+      console.log(list)
       this.$api.post('/physical-report/supplier/edit', {
         data: {
           id: this.$route.query.id,
@@ -213,6 +264,7 @@ export default {
   created () {
     this.getMerchantInfo()
     this.getCompanyList()
+    this.getEquipments()
     this.getList(0, 0)
     this.disabled = !!this.$route.query.type
   }
@@ -222,5 +274,9 @@ export default {
 <style lang="less" scoped>
 .add-merchant {
   padding-top: 80px;
+}
+.equip-row {
+  display: flex;
+  align-items: center;
 }
 </style>
