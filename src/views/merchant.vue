@@ -27,14 +27,13 @@
       <el-table-column prop="userPhone" label="手机号" width="120px"></el-table-column>
       <el-table-column prop="cityName" label="所在城市" width="80px"></el-table-column>
       <el-table-column prop="addr" label="详细地址"></el-table-column>
-      <el-table-column prop="deviceNum" label="设备台数" width="80px"></el-table-column>
+      <el-table-column prop="deviceNum" label="设备"></el-table-column>
       <el-table-column prop="pwd" label="商户后台密码" width="120px"></el-table-column>
       <el-table-column label="操作" width="180px">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="click(scope.row.id, 1)">查看</el-button>
           <el-button type="text" size="small" @click="click(scope.row.id)">编辑</el-button>
           <el-button type="text" size="small">删除</el-button>
-          <el-button type="text" size="small" @click="bind(scope.row)">绑定设备</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -82,16 +81,6 @@ export default {
       this.$router.push({
         path: '/addMerchant',
         query: { id, type }
-      })
-    },
-    bind (obj) {
-      this.$router.push({
-        path: '/bind',
-        query: {
-          id: obj.id,
-          userName: encodeURIComponent(obj.userName),
-          companyName: encodeURIComponent(obj.companyName)
-        }
       })
     },
     handleSizeChange (val) {

@@ -12,7 +12,6 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="changePsd">提交</el-button>
-        <el-button>取消并返回</el-button>
       </el-form-item>
     </el-form>
   </div>

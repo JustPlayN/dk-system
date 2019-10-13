@@ -12,7 +12,7 @@
         <el-radio v-model="merchant.sex" :label="2" :disabled="disabled">女</el-radio>
       </el-form-item>
       <el-form-item label="手机号：" prop="userPhone">
-        <el-input v-model.trim="merchant.userPhone" :disabled="disabled"></el-input>
+        <el-input v-model.trim="merchant.userPhone" maxlength="11" :disabled="disabled"></el-input>
       </el-form-item>
       <el-form-item label="所在省：" prop="provinceId">
         <el-select v-model="merchant.provinceId" placeholder="请选择" @change="change($event, 1)" :disabled="disabled">
@@ -32,17 +32,17 @@
       <el-form-item label="详细地址：" prop="addr">
         <el-input v-model.trim="merchant.addr" placeholder="请填写地址" :disabled="disabled"></el-input>
       </el-form-item>
-      <el-form-item label="备注：" prop="addr">
+      <el-form-item label="备注：" prop="remark">
         <el-input type="textarea" :rows="2" placeholder="请输入内容" :disabled="disabled" v-model.trim="merchant.remark" width="400px"></el-input>
       </el-form-item>
-      <el-form-item label="绑定设备：" prop="equipments">
-        <el-checkbox-group v-model="checkList">
+      <el-form-item label="绑定设备：" required>
+        <el-checkbox-group v-model="deviceIndex" :disabled="disabled">
           <div v-for="(e, index) in equipments" :key="e.id" class="equip-row">
             <div style="width: 200px">
               <el-checkbox :label="index">{{e.deviceType}}</el-checkbox><br>
             </div>
             <div>
-              <el-input-number class="input-number" width="100px" size="mini" :min="1" v-model="e.number"></el-input-number>
+              <el-input-number class="input-number" width="100px" size="mini" :min="1" v-model="e.deviceNum" :disabled="disabled"></el-input-number>
             </div>
           </div>
         </el-checkbox-group>
@@ -73,14 +73,14 @@ export default {
         addr: '',
         remark: '',
         companyName: '',
-        checkList: []     // 后端返回选中的设备及数量
+        deviceList: []     // 后端返回选中的设备及数量
       },
       provinceList: [],
       cityList: [],
       areaList: [],
       companyList: [],
       equipments: [],
-      checkList: [],      // 选中的设备在equipmens中的下标index
+      deviceIndex: [],      // 选中的设备在equipmens中的下标index
       rules: {
         userName: [
           { required: true, message: '请输入姓名', trigger: 'blur' }
@@ -155,21 +155,20 @@ export default {
       }).then(res => {
         if (res.code === '00000') {
           let eObj = {}
-          this.merchant.checkList = [{ id: 1, number: 2 }, { id: 2, number: 6 }]
-          this.merchant.checkList.map(a => {        // 已选中的设备已id为key，nubmer为value转为Object
-            eObj[a.id] = a.number
+          this.merchant.deviceList.map(a => {        // 已选中的设备已id为key，nubmer为value转为Object
+            eObj[a.id] = a.deviceNum
           })
           this.equipments = res.data.map((item, index) => {
             if (eObj[item.id]) {                    // 此设备是否被选中
-              this.checkList.push(index)
+              this.deviceIndex.push(index)
               return {
                 ...item,
-                number: eObj[item.id]
+                deviceNum: eObj[item.id]
               }
             } else {
               return {
                 ...item,
-                number: 1
+                deviceNum: 1
               }
             }
           })
@@ -196,13 +195,19 @@ export default {
       })
     },
     editMerchant () {
-      let list = this.checkList.map(i => {
+      if (!/^1\d{10}/.test(this.merchant.userPhone)) {
+        this.$message({ message: '请输入正确的手机号', type: 'error' })
+        return
+      } else if (this.deviceIndex.length === 0) {
+        this.$message({ message: '请选则绑定设备及数量', type: 'error' })
+        return
+      }
+      let list = this.deviceIndex.map(i => {
         return {
           id: this.equipments[i].id,
-          number: this.equipments[i].number
+          deviceNum: this.equipments[i].deviceNum
         }
       })
-      console.log(list)
       this.$api.post('/physical-report/supplier/edit', {
         data: {
           id: this.$route.query.id,
@@ -214,7 +219,8 @@ export default {
           areaId: this.merchant.areaId,
           addr: this.merchant.addr,
           remark: this.merchant.remark,
-          companyName: this.merchant.companyName
+          companyName: this.merchant.companyName,
+          deviceList: list
         }
       }).then(res => {
         if (res.code === '00000') {
@@ -225,6 +231,19 @@ export default {
       })
     },
     addMerchant () {
+      if (!/^1\d{10}/.test(this.merchant.userPhone)) {
+        this.$message({ message: '请输入正确的手机号', type: 'error' })
+        return
+      } else if (this.deviceIndex.length === 0) {
+        this.$message({ message: '请选则绑定设备及数量', type: 'error' })
+        return
+      }
+      let list = this.deviceIndex.map(i => {
+        return {
+          id: this.equipments[i].id,
+          deviceNum: this.equipments[i].deviceNum
+        }
+      })
       this.$api.post('/physical-report/supplier/add', {
         data: {
           userName: this.merchant.userName,
@@ -235,7 +254,8 @@ export default {
           areaId: this.merchant.areaId,
           addr: this.merchant.addr,
           remark: this.merchant.remark,
-          companyName: this.merchant.companyName
+          companyName: this.merchant.companyName,
+          deviceList: list
         }
       }).then(res => {
         if (res.code === '00000') {
