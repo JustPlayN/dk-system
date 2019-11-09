@@ -23,16 +23,24 @@
       </el-form-item>
     </el-form>
     <el-row>
-      <el-button type="primary" @click="search" size="medium">批量导入</el-button>
+      <el-col :span="2">
+        <el-upload
+          class="upload-demo"
+          action="/physical-report/teacher/upload">
+          <el-button type="primary" @click="search" size="medium">批量导入</el-button>
+        </el-upload>
+      </el-col>
+      <el-col :span="4">
+        <el-link type="primary" style="margin-left: 20px" href="https://www.edolphin.cn/physical-report/file/teacher_import_template.csv">下载模版</el-link>
+      </el-col>
     </el-row>
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
       <el-table-column prop="id" label="老师id"></el-table-column>
       <el-table-column prop="userName" label="老师姓名"></el-table-column>
-      <el-table-column prop="userPhone" label="老师手机号"></el-table-column>
+      <el-table-column prop="userPhone" label="老师手机号(登录小程序手机号)"></el-table-column>
       <el-table-column prop="companyName" label="所在单位"></el-table-column>
       <el-table-column prop="gradeName" label="年级"></el-table-column>
       <el-table-column prop="className" label="班级"></el-table-column>
-      <el-table-column prop="pwd" label="登录小程序密码"></el-table-column>
     </el-table>
     <el-row class="pagination-box">
       <el-pagination
@@ -96,7 +104,7 @@ export default {
       if (value) {
         this.getGradeList()
       } else {
-        this.companyList = []
+        this.gradeList = []
         this.companyId = ''
       }
     },
@@ -145,6 +153,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     this.getDataList()
     this.getCompanyList()
   }

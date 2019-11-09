@@ -8,7 +8,8 @@ const state = {
     total: 0,
   },
   cityList: [],
-  isLogin: true
+  isLogin: true,
+  dpath: ''
 }
 
 const mutations = {
@@ -23,11 +24,15 @@ const mutations = {
   },
   putIsLogin (state, value) {
     state.isLogin = value
+  },
+  putDpath (state, value) {
+    state.dpath = value
   }
 }
 
 const actions = {
   putPage: ({ commit }, value) => commit('putPage', value),
+  putDpath: ({ commit }, value) => commit('putDpath', value),
   getCityList: ({ commit }, value) => {
     api.post('/physical-report/firstPage/cityMap', {
       data: {}
@@ -45,6 +50,7 @@ const actions = {
 
 const getters = {
   page: state => state.page,
+  dpath: state => state.dpath,
   cityList: state => state.cityList,
   isLogin: state => state.isLogin,
 }

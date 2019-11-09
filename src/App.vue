@@ -1,14 +1,18 @@
 <template>
   <el-container v-if="isLogin">
     <el-aside style="width: 200px">
+      <div class="logo-box">
+        <img class="logo" src="@/assets/logo.png" /><div class="title">享智云</div>
+      </div>
       <el-menu
+        :default-active="dpath"
         background-color="rgb(4, 17, 31)"
         text-color="#fff"
         active-text-color="#fff">
-        <el-submenu v-for="(menu, index) in menuList" :key="index" :index="`${index} + 1`">
-          <template slot="title"><i class="el-icon-message"></i>{{menu.title}}</template>
+        <el-submenu v-for="(menu, index) in menu[roleId]" :key="index" :index="`${index + 1}`">
+          <template slot="title"><i class="icon" :class="menu.icon"></i>{{menu.title}}</template>
           <el-menu-item-group>
-          <el-menu-item v-for="(child, num) in menu.children" :key="`${index + 1}${num + 1}`" :index="`${index + 1}-${num + 1}`" @click="routerTo(child)">
+          <el-menu-item v-for="(child, num) in menu.children" :key="`${index + 1}${num + 1}`" :index="`${index + 1}-${num + 1}`" @click="routerTo(child, `${index + 1}-${num + 1}`)">
             {{child.title}}
           </el-menu-item>
           </el-menu-item-group>
@@ -32,7 +36,7 @@
       </el-main>
     </el-container>
   </el-container>
-  <login v-else />
+  <login @login="login" v-else />
 </template>
 <script>
 import Login from './components/Login'
@@ -43,74 +47,130 @@ export default {
   },
   data () {
     return {
-      menuList: [{
-        title: '数据仪表盘',
-        router: '',
-        children: [{
-          title: '数据看版',
-          router: '/'
+      menu: {
+        '1': [{
+          title: '数据仪表盘',
+          router: '',
+          icon: 'el-icon-s-platform',
+          children: [{
+            title: '数据看板',
+            router: '/'
+          }, {
+            title: '地图分布',
+            router: '/map'
+          }, {
+            title: '可视化看板',
+            router: 'http://datav.aliyuncs.com/share/50a41e1c4ae03fdffe1feb577557fa36'
+          }]
         }, {
-          title: '地图分布',
-          router: '/map'
-        }]
-      }, {
-        title: '商户管理',
-        router: '',
-        children: [{
-          title: '商户列表',
-          router: '/merchant'
-        }]
-      }, {
-        title: '用户信息管理',
-        router: '',
-        children: [{
-          title: '老师列表',
-          router: '/teacher'
+          title: '商户管理',
+          router: '',
+          icon: 'el-icon-s-shop',
+          children: [{
+            title: '商户列表',
+            router: '/merchant'
+          }]
         }, {
-          title: '家长列表',
-          router: '/parent'
+          title: '用户信息管理',
+          router: '',
+          icon: 'el-icon-s-custom',
+          children: [{
+            title: '老师列表',
+            router: '/teacher'
+          }, {
+            title: '家长列表',
+            router: '/parent'
+          }, {
+            title: '孩子列表',
+            router: '/children'
+          }]
         }, {
-          title: '孩子列表',
-          router: '/children'
-        }]
-      }, {
-        title: '体测数据',
-        router: '',
-        children: [{
-          title: '体测数据列表',
-          router: '/test'
-        }]
-      }, {
-        title: '账号设置',
-        router: '',
-        children: [{
-          title: '基础信息',
-          router: '/setting'
+          title: '体测数据',
+          router: '',
+          icon: 'el-icon-s-data',
+          children: [{
+            title: '体测数据列表',
+            router: '/test'
+          }]
         }, {
-          title: '修改密码',
-          router: '/password'
-        }]
-      }]
+          title: '账号设置',
+          router: '',
+          icon: 'el-icon-s-tools',
+          children: [{
+            title: '基础信息',
+            router: '/setting'
+          }, {
+            title: '修改密码',
+            router: '/password'
+          }]
+        }],
+        '2': [{
+          title: '用户信息管理',
+          router: '',
+          icon: 'el-icon-s-custom',
+          children: [{
+            title: '老师列表',
+            router: '/teacher'
+          }, {
+            title: '家长列表',
+            router: '/parent'
+          }, {
+            title: '孩子列表',
+            router: '/children'
+          }]
+        }, {
+          title: '体测数据',
+          router: '',
+          icon: 'el-icon-s-data',
+          children: [{
+            title: '体测数据列表',
+            router: '/test'
+          }]
+        }, {
+          title: '账号设置',
+          router: '',
+          icon: 'el-icon-s-tools',
+          children: [{
+            title: '基础信息',
+            router: '/setting'
+          }, {
+            title: '修改密码',
+            router: '/password'
+          }]
+        }],
+      },
+      roleId: ''
     }
   },
   computed: {
-    ...mapGetters(['isLogin'])
+    ...mapGetters(['isLogin', 'dpath'])
   },
   methods: {
-    routerTo (obj) {
-      this.$router.replace({
-        path: obj.router
-      })
+    routerTo (obj, dpath) {
+      if (obj.title === '可视化看板') {
+        window.location.href = obj.router
+      } else {
+        this.$router.replace({
+          path: obj.router,
+          query: {
+            dpath
+          }
+        })
+      }
     },
     signout () {
       this.$utils.setCookie('token', '')
       this.$store.dispatch('putIsLogin', false)
+    },
+    login () {
+      this.roleId = this.$utils.getCookie('roleId')
     }
   },
   created () {
     let token = this.$utils.getCookie('token')
     if (token) {
       this.$store.dispatch('putIsLogin', true)
+      this.roleId = this.$utils.getCookie('roleId')
     } else {
       this.$store.dispatch('putIsLogin', false)
     }
@@ -122,6 +182,20 @@ export default {
   height: 100vh;
   border: 1px solid #eee;
   background: rgb(239, 239, 239);
+  overflow: hidden;
+}
+.logo-box {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  .logo {
+    margin-right: 10px;
+    width: 40px;
+    height: 40px;
+  }
 }
 .el-header {
   background-color: #fff;
@@ -138,10 +212,16 @@ export default {
 .el-aside {
   height: 100%;
   background: rgb(4, 17, 31);
+  overflow: hidden;
 }
 .el-menu {
   .el-menu-item.is-active {
     background: rgb(51, 126, 204) !important;
+  }
+  .icon {
+    color: rgb(51, 126, 204);
+    margin-right: 8px;
+    font-size: 20px;
   }
 }
 .el-main {

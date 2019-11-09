@@ -33,7 +33,7 @@
         <el-input v-model.trim="merchant.addr" placeholder="请填写地址" :disabled="disabled"></el-input>
       </el-form-item>
       <el-form-item label="备注：" prop="remark">
-        <el-input type="textarea" :rows="2" placeholder="请输入内容" :disabled="disabled" v-model.trim="merchant.remark" width="400px"></el-input>
+        <el-input type="textarea" autosize placeholder="请输入内容" :disabled="disabled" v-model.trim="merchant.remark" width="400px"></el-input>
       </el-form-item>
       <el-form-item label="绑定设备：" required>
         <el-checkbox-group v-model="deviceIndex" :disabled="disabled">
@@ -282,6 +282,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     this.getMerchantInfo()
     this.getCompanyList()
     this.getEquipments()

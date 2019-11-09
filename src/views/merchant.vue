@@ -80,7 +80,11 @@ export default {
     click (id, type) {
       this.$router.push({
         path: '/addMerchant',
-        query: { id, type }
+        query: {
+          id,
+          type,
+          dpath: this.$route.query.dpath || ''
+        }
       })
     },
     handleSizeChange (val) {
@@ -117,6 +121,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     this.getDataList()
     if (this.cityList.length === 0) {
       this.getCityList()

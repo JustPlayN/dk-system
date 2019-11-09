@@ -17,7 +17,13 @@ utils.getCookie = (name) => {
  * @function 获取通过name获得Cookie
  */
 utils.setCookie = (cName, value, maxAge) => {
-  document.cookie = cName + '=' + escape(value) + ((maxAge === null) ? '' : ';max-age=' + maxAge)
+  let domainArr = window.location.host.split('.')
+  let domain = ''
+  if (domainArr.length === 3) {
+    domainArr.shift()
+    domain = domainArr.join('.')
+  }
+  document.cookie = cName + '=' + escape(value) + ((maxAge === null) ? '' : ';max-age=' + maxAge) + ';path=/;domain=' + domain
 }
 
 export default utils

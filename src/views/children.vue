@@ -48,22 +48,31 @@
       </el-form-item>
     </el-form>
     <el-row>
-      <el-button type="primary" @click="search" size="medium">批量导入</el-button>
+      <el-col :span="2">
+        <el-upload
+          class="upload-demo"
+          action="/physical-report/student/upload">
+          <el-button type="primary" @click="search" size="medium">批量导入</el-button>
+        </el-upload>
+      </el-col>
+      <el-col :span="4">
+        <el-link type="primary" style="margin-left: 20px" href="https://www.edolphin.cn/physical-report/file/student_template.csv">下载模版</el-link>
+      </el-col>
     </el-row>
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
-      <el-table-column prop="id" label="孩子id" width="65px"></el-table-column>
-      <el-table-column prop="studentName" label="孩子姓名" width="80px"></el-table-column>
-      <el-table-column label="性别" width="60px">
+      <el-table-column prop="id" label="孩子id"></el-table-column>
+      <el-table-column prop="studentName" label="孩子姓名"></el-table-column>
+      <el-table-column label="性别">
         <template slot-scope="scope">{{scope.row.sex === 1 ? '男' : '女'}}</template>
       </el-table-column>
-      <el-table-column prop="age" label="年龄" width="60px"></el-table-column>
-      <el-table-column prop="teacherPhone" label="老师手机号" width="110px"></el-table-column>
+      <el-table-column prop="age" label="年龄"></el-table-column>
+      <el-table-column prop="teacherPhone" label="老师手机号"></el-table-column>
       <el-table-column prop="schoolName" label="所属单位"></el-table-column>
-      <el-table-column prop="gradeName" label="所属年级" width="80px"></el-table-column>
-      <el-table-column prop="className" label="所属班级" width="80px"></el-table-column>
+      <el-table-column prop="gradeName" label="所属年级"></el-table-column>
+      <el-table-column prop="className" label="所属班级"></el-table-column>
       <el-table-column prop="studentNo" label="学号"></el-table-column>
       <el-table-column prop="handCode" label="绑定手环Id"></el-table-column>
-      <el-table-column prop="parentPhone" label="家长手机号" width="110px"></el-table-column>
+      <el-table-column prop="parentPhone" label="家长手机号"></el-table-column>
       <el-table-column label="操作" width="120px">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="click(scope.row)">换绑</el-button>
@@ -190,6 +199,7 @@ export default {
     },
   },
   created () {
+    this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     this.getDataList()
     this.getCompanyList()
   }

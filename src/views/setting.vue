@@ -149,6 +149,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     this.getUserInfo()
     this.getList(0, 0)
   }

@@ -36,6 +36,7 @@ export default {
           this.$utils.setCookie('token', res.data.token, 86400)
           this.$utils.setCookie('userName', res.data.userName, 86400)
           this.$store.dispatch('putIsLogin', true)
+          this.$emit('login')
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
@@ -51,7 +52,7 @@ export default {
   align-items: center;
   height: 100vh;
   padding-left: 60%;
-  background: url('../assets/bg.jpg') no-repeat;
+  background: url('../assets/bg.png') no-repeat;
   background-size: cover;
 }
 .login-box {

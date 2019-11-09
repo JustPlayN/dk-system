@@ -8,7 +8,7 @@ request.interceptors.response.use((response) => {
   let res = response.data
   if (res.code === '00000') {
     return res
-  } else if (res.code === '00003') {
+  } else if (res.code === '00003' || res.code === '10007') {
     utils.setCookie('token', '')
     utils.setCookie('roleId', '')
     utils.setCookie('userName', '')
