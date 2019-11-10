@@ -6,7 +6,7 @@ module.exports = {
         changeOrigin: true
       }
     },
-    port: 8080,
+    port: 8666,
     disableHostCheck: true
   },
   publicPath: './',

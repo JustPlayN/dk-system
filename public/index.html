@@ -1,18 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>dk-system</title>
-  </head>
-  <body>
-    <noscript>
-      <strong>We're sorry but dk-system doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <script src="https://map.qq.com/api/js?v=2.exp&key=OB4BZ-D4W3U-B7VVO-4PJWW-6TKDJ-WPB77"></script>
-    <!-- built files will be auto injected -->
-  </body>
+<html lang="zh-cmn-Hans">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="format-detection" content="telephone=no,email=no">
+  <title>智享云</title>
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <script type="text/javascript">
+    var docEl = document.documentElement || document.body
+    var resizeEvt = 'onorientationchange' in window ? 'orientationchange' : 'resize'
+    var recalc = function() {
+      //设置根字体大小
+      docEl.style.fontSize = 50 * (docEl.clientWidth / 375) + 'px'
+      setTimeout(function() {
+        docEl.style.fontSize = 50 * (docEl.clientWidth / 375) + 'px'
+      }, 200)
+    }
+    //绑定浏览器缩放与加载时间
+    window.addEventListener(resizeEvt, recalc, false)
+    document.addEventListener('DOMContentLoaded', recalc, false)
+  </script>
+</head>
+<body>
+<div id="app"></div>
+</body>
 </html>
+

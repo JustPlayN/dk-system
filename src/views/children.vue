@@ -109,6 +109,7 @@ export default {
         schoolId: '',
         gradeId: ''
       },
+      showDownload: true,
       tableData: [],
       gradeList: [],
       companyList: []

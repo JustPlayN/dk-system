@@ -58,6 +58,11 @@ export default new Router({
       path: '/password',
       name: 'password',
       component: () => import(/* webpackChunkName: "password" */ './views/password.vue')
+    },
+    {
+      path: '/download',
+      name: 'download',
+      component: () => import(/* webpackChunkName: "download" */ './views/download.vue')
     }
   ]
 })

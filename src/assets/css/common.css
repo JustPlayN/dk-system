@@ -2,6 +2,7 @@ body {
   color: #333;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   font-family: PingFangSC-Regular;
+  font-size: 24px;
 }
 html, body, div, span, i, ul, li, img, button, h2, h3, h4, h5 {
   box-sizing: border-box;
