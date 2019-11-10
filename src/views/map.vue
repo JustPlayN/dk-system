@@ -36,7 +36,7 @@ export default {
           // Marker的覆盖内容
           decoration: new _this.tMap.MarkerDecoration(`<div style='color:#fff;font-size:12px;padding-bottom: 16px'>${item.deviceNum}</div>`),
           // 自定义Marker图标样式
-          icon: new _this.tMap.MarkerImage('../position.png')
+          icon: new _this.tMap.MarkerImage('./position.png')
         })
       })
       console.log(marker)
