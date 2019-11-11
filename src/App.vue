@@ -1,5 +1,5 @@
 <template>
-  <el-container v-if="isLogin">
+  <el-container v-if="userInfo.roleId">
     <el-aside style="width: 200px">
       <div class="logo-box">
         <img class="logo" src="@/assets/logo.png" /><div class="title">享智云</div>
@@ -9,7 +9,7 @@
         background-color="rgb(4, 17, 31)"
         text-color="#fff"
         active-text-color="#fff">
-        <el-submenu v-for="(menu, index) in menu[roleId]" :key="index" :index="`${index + 1}`">
+        <el-submenu v-for="(menu, index) in menu[userInfo.roleId]" :key="index" :index="`${index + 1}`">
           <template slot="title"><i class="icon" :class="menu.icon"></i>{{menu.title}}</template>
           <el-menu-item-group>
           <el-menu-item v-for="(child, num) in menu.children" :key="`${index + 1}${num + 1}`" :index="`${index + 1}-${num + 1}`" @click="routerTo(child, `${index + 1}-${num + 1}`)">
@@ -22,13 +22,17 @@
     
     <el-container class="inside-container">
       <el-header class="header">
-        <el-dropdown @command="signout">
-          <i class="el-icon-setting"></i>
-          <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>退出登录</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-        <span class="name">王小虎</span>
+        <div class="content" v-if="notice && userInfo.roleId === '1'">通知：{{notice}}</div>
+        <div class="content" v-else></div>
+        <div class="right">
+          <el-dropdown @command="signout">
+            <i class="el-icon-setting"></i>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item>退出登录</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <span class="name">{{userInfo.userName}}</span>
+        </div>
       </el-header>
       
       <el-main>
@@ -36,7 +40,7 @@
       </el-main>
     </el-container>
   </el-container>
-  <login @login="login" v-else />
+  <login v-else />
 </template>
 <script>
 import Login from './components/Login'
@@ -47,6 +51,7 @@ export default {
   },
   data () {
     return {
+      notice: '',
       menu: {
         '1': [{
           title: '数据仪表盘',
@@ -103,8 +108,32 @@ export default {
             title: '修改密码',
             router: '/password'
           }]
+        }, {
+          title: '公告管理',
+          router: '',
+          icon: 'el-icon-message-solid',
+          children: [{
+            title: '公告管理',
+            router: '/addNotice'
+          }]
         }],
         '2': [{
+          title: '数据仪表盘',
+          router: '',
+          icon: 'el-icon-s-platform',
+          children: [{
+            title: '数据看板',
+            router: '/'
+          }]
+        }, {
+          title: '设备管理',
+          router: '',
+          icon: 'el-icon-s-order',
+          children: [{
+            title: '设备列表',
+            router: '/equipList'
+          }]
+        }, {
           title: '用户信息管理',
           router: '',
           icon: 'el-icon-s-custom',
@@ -131,19 +160,15 @@ export default {
           router: '',
           icon: 'el-icon-s-tools',
           children: [{
-            title: '基础信息',
-            router: '/setting'
-          }, {
             title: '修改密码',
             router: '/password'
           }]
         }],
-      },
-      roleId: ''
+      }
     }
   },
   computed: {
-    ...mapGetters(['isLogin', 'dpath'])
+    ...mapGetters(['userInfo', 'dpath'])
   },
   methods: {
     routerTo (obj, dpath) {
@@ -159,21 +184,33 @@ export default {
       }
     },
     signout () {
-      this.$utils.setCookie('token', '')
-      this.$store.dispatch('putIsLogin', false)
+      this.$utils.setCookie('userInfo', '')
+      this.$store.dispatch('putUserInfo', {})
     },
-    login () {
-      this.roleId = this.$utils.getCookie('roleId')
+    getNotice () {
+      this.$api.post('/physical-report/message/get', {
+        data: this.userInfo.roleId
+      }).then(res => {
+        if (res.code === '00000') {
+          let time = + new Date()
+          if (time < res.data.endTime && time > res.data.startTime) {
+            this.notice = res.data.content
+          }
+        } else {
+          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
     }
   },
   created () {
-    let token = this.$utils.getCookie('token')
-    if (token) {
-      this.$store.dispatch('putIsLogin', true)
-      this.roleId = this.$utils.getCookie('roleId')
+    let userInfo = this.$utils.getCookie('userInfo')
+    userInfo = userInfo ? JSON.parse(userInfo) : ''
+    if (userInfo) {
+      this.$store.dispatch('putUserInfo', userInfo)
     } else {
-      this.$store.dispatch('putIsLogin', false)
+      this.$store.dispatch('putUserInfo', {})
     }
+    this.getNotice()
   }
 }
 </script>
@@ -198,10 +235,22 @@ export default {
   }
 }
 .el-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: #fff;
   text-align: right;
   font-size: 12px;
   line-height: 60px;
+  .content {
+    font-size: 16px;
+    color: #f40;
+  }
+  .right {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+  }
   .el-icon-setting {
     margin-right: 8px;
   }
@@ -215,6 +264,7 @@ export default {
   overflow: hidden;
 }
 .el-menu {
+  border-right: none !important;
   .el-menu-item.is-active {
     background: rgb(51, 126, 204) !important;
   }

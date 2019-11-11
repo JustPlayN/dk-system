@@ -8,7 +8,7 @@ const state = {
     total: 0,
   },
   cityList: [],
-  isLogin: true,
+  userInfo: {},
   dpath: ''
 }
 
@@ -22,8 +22,8 @@ const mutations = {
   putCityList (state, value) {
     state.cityList = value
   },
-  putIsLogin (state, value) {
-    state.isLogin = value
+  putUserInfo (state, value) {
+    state.userInfo = value
   },
   putDpath (state, value) {
     state.dpath = value
@@ -45,14 +45,14 @@ const actions = {
     })
     commit('putCityList', value)
   },
-  putIsLogin: ({ commit }, value) => commit('putIsLogin', value),
+  putUserInfo: ({ commit }, value) => commit('putUserInfo', value),
 }
 
 const getters = {
   page: state => state.page,
   dpath: state => state.dpath,
   cityList: state => state.cityList,
-  isLogin: state => state.isLogin,
+  userInfo: state => state.userInfo,
 }
 
 export default {

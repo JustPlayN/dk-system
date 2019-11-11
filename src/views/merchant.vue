@@ -33,7 +33,7 @@
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="click(scope.row.id, 1)">查看</el-button>
           <el-button type="text" size="small" @click="click(scope.row.id)">编辑</el-button>
-          <el-button type="text" size="small">删除</el-button>
+          <el-button type="text" size="small" @click="deleteItem(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,6 +117,23 @@ export default {
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
+      })
+    },
+    deleteItem (id) {
+      this.$confirm('确定删除该商户吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/physical-report/supplier/list', {
+          data: { id }
+        }).then(res => {
+          if (res.code === '00000') {
+            this.$message({ message: '删除成功', type: 'success' })
+          } else {
+            this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+          }
+        })
       })
     }
   },

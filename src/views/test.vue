@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item label="测试范围：" prop="fieldId">
         <el-select v-model="searchObj.fieldId" clearable placeholder="请选择">
-          <el-option v-for="a in equipments" :label="a.deviceType" :value="a.id" :key="a.id"></el-option>
+          <el-option v-for="a in equipments" :label="a.deviceRange" :value="a.id" :key="a.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="得分：" prop="score">
@@ -42,17 +42,17 @@
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
         <el-button @click="reset">重置</el-button>
-        <el-button type="primary" @click="reset">导出</el-button>
+        <el-button type="primary" v-if="userInfo.roleId === '1'">导出</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
-      <el-table-column prop="studentNo" label="记录id" width="80px"></el-table-column>
+      <el-table-column prop="studentNo" label="记录id"></el-table-column>
       <el-table-column prop="studentName" label="孩子姓名" width="100px"></el-table-column>
       <el-table-column prop="fieldName" label="测试范围"></el-table-column>
       <el-table-column prop="fieldValue" label="成绩" width="100px"></el-table-column>
       <el-table-column prop="score" label="得分" width="80px"></el-table-column>
-      <el-table-column prop="parentPhone" label="家长手机号" width="110px"></el-table-column>
-      <el-table-column prop="teachrePhone" label="老师手机号" width="110px"></el-table-column>
+      <el-table-column prop="parentPhone" label="家长手机号"></el-table-column>
+      <el-table-column prop="teacherPhone" label="老师手机号"></el-table-column>
       <el-table-column prop="schoolName" label="所属单位"></el-table-column>
       <el-table-column label="体测时间" width="100px">
         <template slot-scope="scope">
@@ -94,7 +94,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['page'])
+    ...mapGetters(['page', 'userInfo'])
   },
   methods: {
     ...mapActions(['putPage']),

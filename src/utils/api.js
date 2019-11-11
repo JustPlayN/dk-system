@@ -8,11 +8,11 @@ request.interceptors.response.use((response) => {
   let res = response.data
   if (res.code === '00000') {
     return res
-  } else if (res.code === '00003' || res.code === '10007') {
-    utils.setCookie('token', '')
-    utils.setCookie('roleId', '')
-    utils.setCookie('userName', '')
-    store.dispatch('putIsLogin', false)
+  } else if (res.code === '-1') {
+    utils.setCookie('userInfo', '')
+    utils.setCookie('token', '', 86400)
+    utils.setCookie('roleId', '', 86400)
+    store.dispatch('putUserInfo', {})
   } else {
     return res
   }

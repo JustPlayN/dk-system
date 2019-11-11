@@ -2,10 +2,10 @@
   <div class="teacher">
     <el-form ref="searchForm" :inline="true" :model="searchObj" label-width="120px" size="medium">
       <el-form-item label="家长手机号：" prop="phone">
-        <el-input v-model.trim="searchObj.phone"></el-input>
+        <el-input v-model.trim="searchObj.phone" clearable></el-input>
       </el-form-item>
       <el-form-item label="孩子姓名：" prop="childName">
-        <el-input v-model.trim="searchObj.childName"></el-input>
+        <el-input v-model.trim="searchObj.childName" clearable></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
@@ -75,8 +75,8 @@ export default {
     getDataList () {
       this.$api.post('/physical-report/parent/list', {
         data: {
-          childName: this.search.childName || null,
-          phone: this.search.phone || null
+          childName: this.searchObj.childName || null,
+          phone: this.searchObj.phone || null
         },
         page: {
           currentPage: this.page.currentPage,

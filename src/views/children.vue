@@ -16,12 +16,12 @@
       <el-form-item label="老师手机号：" prop="teacherPhone">
         <el-input v-model="searchObj.teacherPhone"></el-input>
       </el-form-item>
-      <el-form-item label="所属单位" prop="schoolId">
+      <el-form-item label="所属单位" prop="schoolId" v-if="userInfo.roleId === '1'">
         <el-select v-model="searchObj.schoolId" clearable placeholder="请选择" @change="change">
           <el-option v-for="item in companyList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年级：" prop="gradeId">
+      <el-form-item label="年级：" prop="gradeId" v-if="userInfo.roleId === '1'">
         <el-select v-model="searchObj.gradeId" clearable placeholder="请选择" :disabled="!searchObj.schoolId">
           <el-option v-for="item in gradeList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
@@ -47,16 +47,18 @@
         <el-button @click="reset">重置</el-button>
       </el-form-item>
     </el-form>
-    <el-row>
+    <el-row v-if="userInfo.roleId === '1'">
       <el-col :span="2">
         <el-upload
           class="upload-demo"
+          :show-file-list="false"
+          :on-success="search"
           action="/physical-report/student/upload">
-          <el-button type="primary" @click="search" size="medium">批量导入</el-button>
+          <el-button type="primary" size="medium">批量导入</el-button>
         </el-upload>
       </el-col>
       <el-col :span="4">
-        <el-link type="primary" style="margin-left: 20px" href="https://www.edolphin.cn/physical-report/file/student_template.csv">下载模版</el-link>
+        <el-link type="primary" style="margin-left: 20px" href="https://www.edolphin.cn/physical-report/file/student_template.xls">下载模版</el-link>
       </el-col>
     </el-row>
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
@@ -116,7 +118,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['page'])
+    ...mapGetters(['page', 'userInfo'])
   },
   methods: {
     ...mapActions(['putPage']),

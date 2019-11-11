@@ -180,6 +180,7 @@ export default {
     getMerchantInfo () {
       let id = this.$route.query.id
       if (!id) {
+        this.getEquipments()
         return
       }
       this.$api.post('/physical-report/supplier/detail', {
@@ -189,6 +190,7 @@ export default {
           this.merchant = res.data
           this.getList(this.merchant.provinceId, 1)
           this.getList(this.merchant.cityId, 2)
+          this.getEquipments()
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
@@ -283,10 +285,9 @@ export default {
   },
   created () {
     this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
-    this.getMerchantInfo()
-    this.getCompanyList()
-    this.getEquipments()
     this.getList(0, 0)
+    this.getCompanyList()
+    this.getMerchantInfo()
     this.disabled = !!this.$route.query.type
   }
 }

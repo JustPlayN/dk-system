@@ -27,7 +27,17 @@ export default new Router({
     {
       path: '/addMerchant',
       name: 'addMerchant',
-      component: () => import(/* webpackChunkName: "merchant" */ './views/addMerchant.vue')
+      component: () => import(/* webpackChunkName: "addMerchant" */ './views/addMerchant.vue')
+    },
+    {
+      path: '/equipList',
+      name: 'equipList',
+      component: () => import(/* webpackChunkName: "equipList" */ './views/equipList.vue')
+    },
+    {
+      path: '/addNotice',
+      name: 'addNotice',
+      component: () => import(/* webpackChunkName: "addNotice" */ './views/addNotice.vue')
     },
     {
       path: '/teacher',

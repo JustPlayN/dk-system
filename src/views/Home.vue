@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-if="userInfo.roleId === '1'">
       <el-col :span="6" v-for="(e, index) in equipments" :key="index">
         <div class="item-box">
           <el-col :span="8" class="item-icon"><i :class="e.icon"></i></el-col>
@@ -39,6 +39,7 @@
 <script>
 // @ is an alias to /src
 
+import { mapGetters } from 'vuex'
 export default {
   name: 'home',
   components: {
@@ -50,14 +51,17 @@ export default {
       dataList: []
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
     getData () {
       this.$api.post('/physical-report/firstPage/datakanban', { data: {} }).then(res => {
         if (res.code === '00000') {
           this.equipments = [
-            { name: '当前设备（台）', value: res.data.totalDeviceNum, icon: 'el-icon-eleme' },
-            { name: '设备覆盖城市（个）', value: res.data.cityNum, icon: 'el-icon-eleme' },
-            { name: '本月新设备（台）', value: res.data.newDeviceMonth, icon: 'el-icon-eleme' }
+            { name: '当前设备（台）', value: res.data.totalDeviceNum, icon: 'el-icon-s-order' },
+            { name: '设备覆盖城市（个）', value: res.data.cityNum, icon: 'el-icon-s-order' },
+            { name: '本月新设备（台）', value: res.data.newDeviceMonth, icon: 'el-icon-s-order' }
           ]
           this.merchants = [
             { name: '累计服务园所（个）', value: res.data.totalCompanyNum, icon: 'el-icon-user' },
@@ -66,9 +70,9 @@ export default {
             { name: '累计服务孩子（个）', value: res.data.studentNum, icon: 'el-icon-user' }
           ]
           this.dataList = [
-            { name: '累计体测次数（次）', value: res.data.recordNum, icon: 'el-icon-user' },
-            { name: '本月体测次数（次）', value: res.data.newRecordMonth, icon: 'el-icon-user' },
-            { name: '今日体测次数（次）', value: res.data.todayRecord, icon: 'el-icon-user' }
+            { name: '累计体测次数（次）', value: res.data.recordNum, icon: 'el-icon-s-data' },
+            { name: '本月体测次数（次）', value: res.data.newRecordMonth, icon: 'el-icon-s-data' },
+            { name: '今日体测次数（次）', value: res.data.todayRecord, icon: 'el-icon-s-data' }
           ]
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })

@@ -31,12 +31,22 @@ export default {
             message: '登录成功',
             type: 'success'
           })
-          this.$utils.setCookie('phone', this.phone, 86400)
-          this.$utils.setCookie('roleId', res.data.roleId, 86400)
-          this.$utils.setCookie('token', res.data.token, 86400)
-          this.$utils.setCookie('userName', res.data.userName, 86400)
-          this.$store.dispatch('putIsLogin', true)
-          this.$emit('login')
+          let roleId
+          if (res.data.roleId.indexOf('1') !== -1) {
+            roleId = '1'
+          } else if (res.data.roleId.indexOf('2') !== -1) {
+            roleId = '2'
+          }
+          let userInfo = {
+            token: res.data.token,
+            roleId: roleId,
+            userName: res.data.userName,
+            phone: this.phone
+          }
+          this.$utils.setCookie('token', userInfo.token, 86400)
+          this.$utils.setCookie('roleId', roleId, 86400)
+          this.$utils.setCookie('userInfo', JSON.stringify(userInfo), 86400)
+          this.$store.dispatch('putUserInfo', userInfo)
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
