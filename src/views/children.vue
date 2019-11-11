@@ -78,7 +78,7 @@
       <el-table-column label="操作" width="120px">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="click(scope.row)">换绑</el-button>
-          <el-button type="text" size="small">手环二维码</el-button>
+          <el-button type="text" size="small" @click="qrCode = scope.row.handCode">手环二维码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,12 +93,17 @@
         :total="page.total">
       </el-pagination>
     </el-row>
+    <show-code :code="qrCode" v-if="qrCode" @close="qrCode = ''" />
   </div>
 </template>
 
 <script>
+import showCode from '@/components/showCode'
 import { mapGetters, mapActions } from 'vuex'
 export default {
+  components: {
+    showCode
+  },
   data () {
     return {
       searchObj: {
@@ -111,6 +116,7 @@ export default {
         schoolId: '',
         gradeId: ''
       },
+      qrCode: '',
       showDownload: true,
       tableData: [],
       gradeList: [],
