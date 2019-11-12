@@ -191,13 +191,11 @@ export default {
       this.$api.post('/physical-report/message/get', {
         data: this.userInfo.roleId
       }).then(res => {
-        if (res.code === '00000') {
+        if (res.success && res.data) {
           let time = + new Date()
           if (time < res.data.endTime && time > res.data.startTime) {
             this.notice = res.data.content
           }
-        } else {
-          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
       })
     }

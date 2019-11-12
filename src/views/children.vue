@@ -52,7 +52,7 @@
         <el-upload
           class="upload-demo"
           :show-file-list="false"
-          :on-success="search"
+          :on-success="upload"
           action="/physical-report/student/upload">
           <el-button type="primary" size="medium">批量导入</el-button>
         </el-upload>
@@ -128,6 +128,14 @@ export default {
   },
   methods: {
     ...mapActions(['putPage']),
+    upload (res) {
+      if (res.success) {
+        this.search()
+        this.$message({ message: '导入成功', type: 'success' })
+      } else {
+        this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+      }
+    },
     search () {
       this.putPage({ currentPage: 1 })
       this.getDataList()
