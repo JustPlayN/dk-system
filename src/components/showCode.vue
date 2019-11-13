@@ -16,10 +16,9 @@ export default {
     initQrCode () {
       let _this = this
       let qrcode = new QRCode('qrCode', {
-        width: 360,
-        height: 360,
+        width: 240,
+        height: 240,
         text: _this.code,
-        colorDark: '#17AFF3',
         colorLight: '#fff'
       })
       console.log(qrcode)
@@ -51,7 +50,7 @@ export default {
 }
 .qrCode {
   padding: 20px;
-  width: 360px;
-  height: 360px;
+  width: 240px;
+  height: 240px;
 }
 </style>

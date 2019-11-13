@@ -22,8 +22,8 @@
     
     <el-container class="inside-container">
       <el-header class="header">
-        <div class="content" v-if="notice && userInfo.roleId === '1'">通知：{{notice}}</div>
-        <div class="content" v-else></div>
+        <!-- <div class="content" v-if="notice && userInfo.roleId === '1'">通知：{{notice}}</div> -->
+        <div class="content"></div>
         <div class="right">
           <el-dropdown @command="signout">
             <i class="el-icon-setting"></i>
@@ -31,7 +31,8 @@
               <el-dropdown-item>退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <span class="name">{{userInfo.userName}}</span>
+          <span class="name" v-if="userInfo.roleId === '1'">admin</span>
+          <span class="name" v-else>{{userInfo.userName}}</span>
         </div>
       </el-header>
       
@@ -51,7 +52,7 @@ export default {
   },
   data () {
     return {
-      notice: '',
+      // notice: '',
       menu: {
         '1': [{
           title: '数据仪表盘',
@@ -98,23 +99,20 @@ export default {
             router: '/test'
           }]
         }, {
-          title: '账号设置',
-          router: '',
-          icon: 'el-icon-s-tools',
-          children: [{
-            title: '基础信息',
-            router: '/setting'
-          }, {
-            title: '修改密码',
-            router: '/password'
-          }]
-        }, {
           title: '公告管理',
           router: '',
           icon: 'el-icon-message-solid',
           children: [{
             title: '公告管理',
             router: '/addNotice'
+          }]
+        }, {
+          title: '账号设置',
+          router: '',
+          icon: 'el-icon-s-tools',
+          children: [{
+            title: '修改密码',
+            router: '/password'
           }]
         }],
         '2': [{
@@ -160,6 +158,9 @@ export default {
           router: '',
           icon: 'el-icon-s-tools',
           children: [{
+            title: '基础信息',
+            router: '/setting'
+          }, {
             title: '修改密码',
             router: '/password'
           }]
@@ -187,18 +188,18 @@ export default {
       this.$utils.setCookie('userInfo', '')
       this.$store.dispatch('putUserInfo', {})
     },
-    getNotice () {
-      this.$api.post('/physical-report/message/get', {
-        data: this.userInfo.roleId
-      }).then(res => {
-        if (res.success && res.data) {
-          let time = + new Date()
-          if (time < res.data.endTime && time > res.data.startTime) {
-            this.notice = res.data.content
-          }
-        }
-      })
-    }
+    // getNotice () {
+    //   this.$api.post('/physical-report/message/get', {
+    //     data: this.userInfo.roleId
+    //   }).then(res => {
+    //     if (res.success && res.data) {
+    //       let time = + new Date()
+    //       if (time < res.data.endTime && time > res.data.startTime) {
+    //         this.notice = res.data.content
+    //       }
+    //     }
+    //   })
+    // }
   },
   created () {
     let userInfo = this.$utils.getCookie('userInfo')
@@ -208,7 +209,7 @@ export default {
     } else {
       this.$store.dispatch('putUserInfo', {})
     }
-    this.getNotice()
+    // this.getNotice()
   }
 }
 </script>

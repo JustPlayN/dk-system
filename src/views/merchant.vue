@@ -21,7 +21,7 @@
       <el-button type="primary" @click="click()" size="medium">新增商户</el-button>
     </el-row>
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
-      <el-table-column prop="id" label="商户id" width="70px"></el-table-column>
+      <el-table-column prop="merchantId" label="商户id" width="70px"></el-table-column>
       <el-table-column prop="userName" label="姓名" width="80px"></el-table-column>
       <el-table-column prop="companyName" label="单位名称"></el-table-column>
       <el-table-column prop="userPhone" label="手机号" width="120px"></el-table-column>
@@ -125,10 +125,11 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.$api.post('/physical-report/supplier/list', {
+        this.$api.post('/physical-report/supplier/delete', {
           data: { id }
         }).then(res => {
           if (res.code === '00000') {
+            this.getDataList()
             this.$message({ message: '删除成功', type: 'success' })
           } else {
             this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })

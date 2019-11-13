@@ -77,7 +77,7 @@
       <el-table-column prop="parentPhone" label="家长手机号"></el-table-column>
       <el-table-column label="操作" width="120px">
         <template slot-scope="scope">
-          <el-button type="text" size="small" @click="click(scope.row)">换绑</el-button>
+          <el-button type="text" size="small" @click="changeCode(scope.row)">换绑</el-button>
           <el-button type="text" size="small" @click="qrCode = scope.row.handCode">手环二维码</el-button>
         </template>
       </el-table-column>
@@ -144,9 +144,6 @@ export default {
       this.$refs['searchForm'].resetFields()
       this.search()
     },
-    click (obj) {
-      console.log(obj)
-    },
     handleSizeChange (val) {
       if (val !== this.page.pageSize) {
         this.putPage({ pageSize: val })
@@ -166,6 +163,30 @@ export default {
         this.companyList = []
         this.schoolId = ''
       }
+    },
+    changeCode (obj) {
+      this.$prompt('请输入新的手环Id', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消'
+      }).then(({ value }) => {
+        if (!value) {
+          return
+        }
+        this.$api.post('/physical-report/student/changCode', {
+          data: {
+            studentNo: obj.studentNo,
+            oldHandCode: obj.handCode,
+            newHandCode: value
+          }
+        }).then(res => {
+          if (res.code === '00000') {
+            this.$message({ message: '换绑成功', type: 'success' })
+            this.getDataList()
+          } else {
+            this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+          }
+        })
+      })
     },
     getDataList () {
       this.$api.post('/physical-report/student/list', {

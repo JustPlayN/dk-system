@@ -89,7 +89,6 @@ export default {
       })
     },
     change (value, type) {
-      console.log(value)
       if ((!value)) {
         return
       }
@@ -141,7 +140,11 @@ export default {
         }
       }).then(res => {
         if (res.code === '00000') {
-          this.$message({ message: '保存成功', type: 'success' })
+          this.$message({ message: '保存成功，请重新登录', type: 'success' })
+          this.$utils.setCookie('userInfo', '')
+          this.$utils.setCookie('token', '', 86400)
+          this.$utils.setCookie('roleId', '', 86400)
+          this.$store.dispatch('putUserInfo', {})
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
