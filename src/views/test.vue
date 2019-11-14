@@ -148,7 +148,7 @@ export default {
     },
     getEquipments () {
       this.$api.post('/physical-report/device/attribute/list', {
-        data: 0
+        data: 1
       }).then(res => {
         if (res.code === '00000') {
           this.equipments = res.data

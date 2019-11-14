@@ -14,6 +14,12 @@
           end-placeholder="结束日期">
         </el-date-picker>
       </el-form-item>
+      <el-form-item label="面向用户群：" required>
+        <el-checkbox-group v-model="roleId">
+          <el-checkbox :label="4">老师</el-checkbox>
+          <el-checkbox :label="5">家长</el-checkbox>
+        </el-checkbox-group>
+      </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="save">保存</el-button>
       </el-form-item>
@@ -26,7 +32,8 @@ export default {
   data () {
     return {
       notice: '',
-      date: null
+      date: null,
+      roleId: []
     }
   },
   methods: {
@@ -36,11 +43,13 @@ export default {
         return
       } else if (!this.date) {
         this.$message({ message: '请输入公告内容', type: 'error' })
+      } else if (!this.roleId || this.roleId.length === 0) {
+        this.$message({ message: '请选择面向群体', type: 'error' })
       }
       this.$api.post('/physical-report/message/add', {
         data: {
           content: this.notice,
-          messageType: this.$store.getters.userInfo.roleId,
+          messageTypes: this.roleId,
           startTime: this.date[0],
           endTime: this.date[1]
         }
