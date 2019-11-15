@@ -45,6 +45,7 @@
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
         <el-button @click="reset">重置</el-button>
+        <el-button type="primary" @click="downLoadCode">批量导出二维码</el-button>
       </el-form-item>
     </el-form>
     <el-row v-if="userInfo.roleId === '1'">
@@ -78,7 +79,7 @@
       <el-table-column label="操作" width="120px">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="changeCode(scope.row)">换绑</el-button>
-          <el-button type="text" size="small" @click="qrCode = scope.row.handCode">手环二维码</el-button>
+          <el-button type="text" size="small" @click="qrCodeObj = scope.row">手环二维码</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -93,7 +94,7 @@
         :total="page.total">
       </el-pagination>
     </el-row>
-    <show-code :code="qrCode" v-if="qrCode" @close="qrCode = ''" />
+    <show-code :codeObj="qrCodeObj" :show="showDownload" v-if="qrCodeObj" @over="closeCode" />
   </div>
 </template>
 
@@ -116,7 +117,9 @@ export default {
         schoolId: '',
         gradeId: ''
       },
-      qrCode: '',
+      qrCodeObj: null,
+      index: 0,
+      listCode: false,
       showDownload: true,
       tableData: [],
       gradeList: [],
@@ -128,6 +131,25 @@ export default {
   },
   methods: {
     ...mapActions(['putPage']),
+    closeCode () {
+      if (this.index > 0) {
+        this.downLoadCode()
+      } else {
+        this.qrCodeObj = null
+      }
+    },
+    downLoadCode () {
+      this.showDownload = false
+      if (this.index < this.tableData.length) {
+        let codeObj = this.tableData[this.index]
+        this.index ++
+        this.qrCodeObj = codeObj
+      } else {
+        this.index = 0
+        this.qrCodeObj = null
+        this.showDownload = true
+      }
+    },
     upload (res) {
       if (res.success) {
         this.search()
