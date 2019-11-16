@@ -45,7 +45,7 @@
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
         <el-button @click="reset">重置</el-button>
-        <el-button type="primary" @click="downLoadCode">批量导出二维码</el-button>
+        <el-button type="primary" @click="downLoadCode" v-if="userInfo.roleId === '1'">批量导出二维码</el-button>
       </el-form-item>
     </el-form>
     <el-row v-if="userInfo.roleId === '1'">
@@ -79,7 +79,7 @@
       <el-table-column label="操作" width="120px">
         <template slot-scope="scope">
           <el-button type="text" size="small" @click="changeCode(scope.row)">换绑</el-button>
-          <el-button type="text" size="small" @click="qrCodeObj = scope.row">手环二维码</el-button>
+          <el-button type="text" size="small" @click="qrCodeObj = scope.row" v-if="userInfo.roleId === '1'">手环二维码</el-button>
         </template>
       </el-table-column>
     </el-table>
