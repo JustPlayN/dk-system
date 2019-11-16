@@ -13,7 +13,7 @@
         <div class="qrcode-box" id="qrCodeBox">
           <div id="qrCode"></div>
           <div class="name">{{codeObj.studentName}}</div>
-          <div class="code">ID：{{codeObj.handCode}}</div>
+          <div class="code">手环ID：{{codeObj.handCode}}</div>
         </div>
       </div>
       <div class="loading">
