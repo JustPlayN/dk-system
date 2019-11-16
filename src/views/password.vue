@@ -5,10 +5,10 @@
         {{userInfo.phone}}
       </el-form-item>
       <el-form-item label="原密码：" prop="password">
-        <el-input type="password" v-model="userInfo.password"></el-input>
+        <el-input type="password" v-model="userObj.password"></el-input>
       </el-form-item>
       <el-form-item label="新密码：" prop="newPassword">
-        <el-input type="password" v-model="userInfo.newPassword"></el-input>
+        <el-input type="password" v-model="userObj.newPassword"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="changePsd">提交</el-button>
@@ -18,29 +18,32 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data () {
     return {
-      userInfo: {
-        phone: this.$utils.getCookie('phone'),
+      userObj: {
         password: '',
         newPassword: ''
       }
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
     changePsd () {
-      if (!this.userInfo.password) {
+      if (!this.userObj.password) {
         this.$message({ message: '请输入原密码', type: 'error' })
         return
-      } else if (!this.userInfo.newPassword) {
+      } else if (!this.userObj.newPassword) {
         this.$message({ message: '请输入新密码', type: 'error' })
         return
       }
       this.$api.post('/physical-report/user/editPwd', {
         data: {
-          oldPwd: this.userInfo.password,
-          newPwd: this.userInfo.newPassword
+          oldPwd: this.userObj.password,
+          newPwd: this.userObj.newPassword
         }
       }).then(res => {
         if (res.code === '00000') {

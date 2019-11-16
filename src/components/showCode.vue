@@ -60,7 +60,7 @@ export default {
     },
     drawCanvas (code) {
       html2canvas(document.getElementById('qrCodeBox')).then(res => {
-        this.download(res, code)
+        this.download(res, this.codeObj.id)
       })
     },
     download (canvasElement, fileName) {
