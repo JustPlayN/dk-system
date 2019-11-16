@@ -45,7 +45,7 @@
 </template>
 <script>
 import Login from './components/Login'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   components: {
     Login
@@ -172,7 +172,12 @@ export default {
     ...mapGetters(['userInfo', 'dpath'])
   },
   methods: {
+    ...mapActions(['putPage']),
     routerTo (obj, dpath) {
+      this.putPage({
+        pageSize: 10,
+        currentPage: 1
+      })
       if (obj.title === '可视化看板') {
         window.location.href = obj.router
       } else {
@@ -258,9 +263,10 @@ export default {
   }
 }
 .el-aside {
-  height: 100%;
+  min-height: 100%;
   background: rgb(4, 17, 31);
-  overflow: hidden;
+  overflow: auto;
+  padding-bottom: 80px;
 }
 .el-menu {
   border-right: none !important;
