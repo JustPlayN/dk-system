@@ -10,7 +10,7 @@
       <el-form-item label="老师手机号：" prop="teacherPhone">
         <el-input v-model.trim="searchObj.teacherPhone" clearable></el-input>
       </el-form-item>
-      <el-form-item label="所属单位" prop="companyId">
+      <el-form-item label="所属单位" prop="companyId" v-if="userInfo.roleId === '1'">
         <el-select v-model="searchObj.companyId" clearable placeholder="请选择">
           <el-option v-for="item in companyList" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>

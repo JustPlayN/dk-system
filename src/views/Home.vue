@@ -12,15 +12,17 @@
       </el-col>
     </el-row>
     <el-row :gutter="20">
-      <el-col :span="6" v-for="(m, index) in merchants" :key="index">
-        <div class="item-box merchants">
-          <el-col :span="8" class="item-icon"><i :class="m.icon"></i></el-col>
-          <el-col :span="16">
-            <div class="name">{{m.name}}</div>
-            <div class="value">{{m.value}}</div>
-          </el-col>
-        </div>
-      </el-col>
+      <template v-for="(m, index) in merchants">
+        <el-col :span="6" :key="index" v-if="!m.hide">
+          <div class="item-box merchants">
+            <el-col :span="8" class="item-icon"><i :class="m.icon"></i></el-col>
+            <el-col :span="16">
+              <div class="name">{{m.name}}</div>
+              <div class="value">{{m.value}}</div>
+            </el-col>
+          </div>
+        </el-col>
+      </template>
     </el-row>
     <el-row :gutter="20">
       <el-col :span="6" v-for="(d, index) in dataList" :key="index">
@@ -64,7 +66,7 @@ export default {
             { name: '本月新设备（台）', value: res.data.newDeviceMonth, icon: 'el-icon-s-order' }
           ]
           this.merchants = [
-            { name: '累计服务园所（个）', value: res.data.totalCompanyNum, icon: 'el-icon-user' },
+            { name: '累计服务园所（个）', value: res.data.totalCompanyNum, icon: 'el-icon-user', hide: this.userInfo.roleId !== '1' },
             { name: '累计服务老师（个）', value: res.data.teacherNum, icon: 'el-icon-user' },
             { name: '累计服务家长（个）', value: res.data.parentNum, icon: 'el-icon-user' },
             { name: '累计服务孩子（个）', value: res.data.studentNum, icon: 'el-icon-user' }

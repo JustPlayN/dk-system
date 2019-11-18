@@ -190,6 +190,13 @@ export default {
       }
     },
     signout () {
+      this.$router.replace({
+        path: '/',
+        query: {
+          dpath: '1-1'
+        }
+      })
+      this.$store.dispatch('putDpath', '1-1')
       this.$utils.setCookie('userInfo', '')
       this.$store.dispatch('putUserInfo', {})
     },

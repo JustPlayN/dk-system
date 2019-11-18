@@ -28,18 +28,23 @@
       </el-form-item>
       <el-form-item label="年龄：" prop="beginAge">
         <el-select v-model="searchObj.beginAge" clearable placeholder="请选择">
-          <el-option label="1岁" :value="1"></el-option>
-          <el-option label="2岁" :value="2"></el-option>
           <el-option label="3岁" :value="3"></el-option>
+          <el-option label="3.5岁" :value="3.5"></el-option>
           <el-option label="4岁" :value="4"></el-option>
+          <el-option label="4.5岁" :value="4.5"></el-option>
           <el-option label="5岁" :value="5"></el-option>
+          <el-option label="5.5岁" :value="5.5"></el-option>
+          <el-option label="6岁" :value="6"></el-option>
         </el-select>
         <span>～</span>
         <el-select v-model="searchObj.endAge" clearable placeholder="请选择">
-          <el-option label="1岁" :value="1"></el-option>
-          <el-option label="2岁" :value="2"></el-option>
           <el-option label="3岁" :value="3"></el-option>
+          <el-option label="3.5岁" :value="3.5"></el-option>
+          <el-option label="4岁" :value="4"></el-option>
+          <el-option label="4.5岁" :value="4.5"></el-option>
           <el-option label="5岁" :value="5"></el-option>
+          <el-option label="5.5岁" :value="5.5"></el-option>
+          <el-option label="6岁" :value="6"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -214,7 +219,7 @@ export default {
       this.$api.post('/physical-report/student/list', {
         data: {
           studentName: this.searchObj.studentName || null,
-          parentPhone: this.searchObj.pageSize || null,
+          parentPhone: this.searchObj.parentPhone || null,
           teacherPhone: this.searchObj.teacherPhone || null,
           sex: this.searchObj.sex || null,
           beginAge: this.searchObj.beginAge || null,
