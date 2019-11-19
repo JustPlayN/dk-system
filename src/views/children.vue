@@ -184,6 +184,7 @@ export default {
       }
     },
     change (value) {
+      this.searchObj.gradeId = ''
       if (value) {
         this.getGradeList()
       } else {

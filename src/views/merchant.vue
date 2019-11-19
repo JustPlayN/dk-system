@@ -141,9 +141,7 @@ export default {
   created () {
     this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     this.getDataList()
-    if (this.cityList.length === 0) {
-      this.getCityList()
-    }
+    this.getCityList()
   }
 }
 </script>
