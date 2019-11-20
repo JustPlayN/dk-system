@@ -134,7 +134,7 @@ export default {
       }).then(res => {
         if (res.code === '00000') {
           this.tableData = res.data
-          this.putPage({ total: res.page.count })
+          this.putPage({ total: (res.page && res.page.count) || 0 })
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
