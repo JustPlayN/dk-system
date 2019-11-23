@@ -97,6 +97,9 @@ export default {
           children: [{
             title: '体测数据列表',
             router: '/test'
+          }, {
+            title: 'pdf下载',
+            router: '/pdf'
           }]
         }, {
           title: '公告管理',

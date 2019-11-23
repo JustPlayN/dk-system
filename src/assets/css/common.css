@@ -1,7 +1,6 @@
 body {
   color: #333;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-  font-family: PingFangSC-Regular;
   font-size: 24px;
 }
 html, body, div, span, i, ul, li, img, button, h2, h3, h4, h5 {
@@ -28,4 +27,21 @@ html, body, div, span, i, ul, li, img, button, h2, h3, h4, h5 {
 }
 .el-form--inline .el-input--medium .el-input__inner {
   width: 180px;
+}
+
+.border-b {
+  position: relative;
+}
+.border-b::after {
+  content: "";
+  pointer-events: none; /* 防止点击触发 */
+  box-sizing: border-box;
+  position: absolute;
+  width: 200%;
+  height: 1px;
+  left: 0;
+  bottom: 0;
+  border-bottom: 1px solid #d8d8d8;
+  transform: scale(0.5);
+  transform-origin: 0 0;
 }

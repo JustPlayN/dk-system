@@ -4,6 +4,9 @@ import store from '../store'
 
 let request = axios.create()
 request.defaults.withCredentials = true
+request.defaults.headers = {
+  'Access-Control-Allow-Origin': '*'
+}
 request.interceptors.response.use((response) => {
   let res = response.data
   if (res.code === '00000') {

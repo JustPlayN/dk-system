@@ -3,14 +3,17 @@
     <div class="c-box">
       <div class="score">本次{{obj.score}}分</div>
       <div class="pre-score">上次{{obj.preScore}}分</div>
-      <div class="c-one" :style="`transform: rotate(${-225 + 4.5 * obj.score}deg);`">
-        <div class="c-two" :style="`transform: rotate(${4.5 * (obj.preScore - obj.score)}deg);`"></div>
+      <div class="c-one" :style="`transform: rotate(${obj.deg - 45}deg);`">
+        <div class="c-two" :style="`transform: rotate(${obj.preDeg}deg);`"></div>
       </div>
     </div>
     <div class="c-name">总体测试对比扇形图</div>
     <div class="c-tips">注：总分由各单项分数之和组成，满分40分</div>
     <div class="c-btm">
-      <img :src="obj.segmentUrl" class="icon" />
+      <img v-if="obj.segment === '优秀'" src="../assets/img/scoreyx.png" class="icon" />
+      <img v-else-if="obj.segment === '合格'" src="../assets/img/scorehg.png" class="icon" />
+      <img v-else-if="obj.segment === '良好'" src="../assets/img/scorelh.png" class="icon" />
+      <img v-else src="../assets/img/scorebhg.png" class="icon" />
       <div class="right" v-if="obj.segment === '优秀'">
         本次测量综合得分{{obj.score}}，{{obj.segment}}，超过了全班{{obj.percent}}%的同学，继续保持哦！
       </div>
@@ -31,58 +34,62 @@ export default {
 
 <style lang="less" scoped>
 .circle {
-  background: #fff;
   border-radius: 24px;
   padding: 32px;
   width: 530px;
-  background: #F5F8FF;
+  height: 722px;
+  background: #F5F8FF url(../assets/bgd.png) no-repeat;
+  background-size: 532px 254px;
+  background-position: bottom right;
   .c-box {
     display: flex;
     justify-content: center;
-    margin-top: 78px;
-    height: 266px;
+    height: 220px;
     overflow: hidden;
-    padding-top: 78px;
-    background: url(https://www.edolphin.cn/img/circlebg.png) center /contain no-repeat;
+    padding-top: 73px;
+    padding-right: 2px;
+    background: url(../assets/img/circlebg.png) bottom /contain no-repeat;
     position: relative;
     .score,
     .pre-score {
       position: absolute;
-      top: 82px;
+      top: 80px;
       z-index: 10;
-      left: 260px;
+      left: 182px;
       width: 102px;
       text-align: center;
       font-size: 20px;
     }
     .pre-score {
-      top: 124px;
+      top: 120px;
     }
     .c-one {
       display: flex;
       align-items: center;
       justify-content: center;
-      height: 374px;
-      width: 374px;
+      height: 288px;
+      width: 288px;
       border-radius: 50%;
       border: 36px solid #31BFFF;
-      border-color: #31BFFF #31BFFF rgba(49, 191, 255, 0.1) rgba(49, 191, 255, 0.1);
+      border-color: rgba(49, 191, 255, 0.1) rgba(49, 191, 255, 0.1) #31BFFF #31BFFF;
       transform: rotate(-225deg);
     }
     .c-two {
-      height: 290px;
-      width: 290px;
+      height: 210px;
+      width: 210px;
       border-radius: 50%;
       border: 36px solid #31BFFF;
-      border-color: #E8EBF3 #E8EBF3 rgba(232, 235, 243, 0.3) rgba(232, 235, 243, 0.3);
+      border-color:rgba(232, 235, 243, 0.3) rgba(232, 235, 243, 0.3) #E8EBF3 #E8EBF3;
     }
   }
   .c-name {
-    margin-top: 26px;
+    font-size: 16px;
+    margin-top: 16px;
     text-align: center;
   }
   .c-tips {
-    margin-top: 8px;
+    font-size: 16px;
+    margin-top: 4px;
     color: #9197A3;
     text-align: center;
   }
@@ -98,8 +105,8 @@ export default {
       flex-shrink: 0;
     }
     .right {
-      font-size: 28px;
-      line-height: 40px;
+      font-size: 22px;
+      line-height: 38px;
       color: #9197A3;
     }
   }

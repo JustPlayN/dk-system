@@ -60,6 +60,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "test" */ './views/test.vue')
     },
     {
+      path: '/pdf',
+      name: 'pdf',
+      component: () => import(/* webpackChunkName: "test" */ './views/downloadPdf.vue')
+    },
+    {
       path: '/setting',
       name: 'setting',
       component: () => import(/* webpackChunkName: "setting" */ './views/setting.vue')
@@ -68,11 +73,6 @@ export default new Router({
       path: '/password',
       name: 'password',
       component: () => import(/* webpackChunkName: "password" */ './views/password.vue')
-    },
-    {
-      path: '/download',
-      name: 'download',
-      component: () => import(/* webpackChunkName: "download" */ './views/download.vue')
     }
   ]
 })
