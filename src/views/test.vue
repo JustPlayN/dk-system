@@ -42,7 +42,6 @@
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
         <el-button @click="reset">重置</el-button>
-        <el-button type="primary" v-if="userInfo.roleId === '1'">导出</el-button>
       </el-form-item>
     </el-form>
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">

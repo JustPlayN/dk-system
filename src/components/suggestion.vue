@@ -118,7 +118,7 @@ export default {
       margin: 16px 16px 0 0 ;
       background: #31BFFF;
       border-radius: 24px;
-      line-height: 48px;
+      line-height: 42px;
       font-size: 18px;
       color: #fff;
     }

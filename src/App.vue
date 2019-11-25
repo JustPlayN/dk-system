@@ -98,7 +98,7 @@ export default {
             title: '体测数据列表',
             router: '/test'
           }, {
-            title: 'pdf下载',
+            title: '家长pdf下载',
             router: '/pdf'
           }]
         }, {

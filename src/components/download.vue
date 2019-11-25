@@ -1,64 +1,66 @@
 <template>
-  <div class="download">
-    <div id="boxOne" class="box-one">
-      <div class="top">
-        <div class="left">
-          <div class="title">享智云幼儿体质测评报告</div>
-          <div class="title-text">我们将针对不同年龄段的孩子提供定制化的精准体质测试，该测试目前主要包含8大项，此外我们 <br>还为您的孩子提供了科学的训练方案。</div>
-        </div>
-        <img class="logo" src="../assets/img/logo.png" />
-      </div>
-      <div class="content">
-        <div class="school-title"><div>{{obj.basicDto.studentName}}</div><i class="iconfont iconnan" :class="{iconnan: obj.basicDto.sex === 1, iconnv: obj.basicDto.sex === 2}" /></div>
-        <div class="school-info">
-          <div class="name">班级：</div>
-          <div class="desc">{{obj.basicDto.schoolName}}</div>
-          <div class="name">班级：</div>
-          <div class="desc">{{obj.basicDto.className}}</div>
-          <div class="name">年龄：</div>
-          <div class="desc">{{obj.basicDto.age}}岁</div>
-          <div class="name">测试时间：</div>
-          <div class="desc">{{obj.basicDto.date | formatDate('YYYY/MM/DD')}}</div>
-        </div>
-        <div class="chart-box">
-          <div class="chart-item">
-            <circle-chart v-if="circleData" :obj="circleData" />
+  <div class="download-box">
+    <div id="download">
+      <div class="box-one">
+        <div class="top">
+          <div class="left">
+            <div class="title">享智云幼儿体质测评报告</div>
+            <div class="title-text">我们将针对不同年龄段的孩子提供定制化的精准体质测试，该测试目前主要包含8大项，此外我们 <br>还为您的孩子提供了科学的训练方案。</div>
           </div>
-          <div class="chart-item">
-            <parent-radar v-if="radarData" :obj="radarData" />
-          </div>
-        </div>
-        <div class="single-data">
-          <div class="single-title">单项分析</div>
-          <div class="single-one">
-            <parent-analyse-item v-if="singleAnalyseList.length > 0" :obj="singleAnalyseList[0]" />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="boxTwo" class="box-two" v-if="singleAnalyseList.length > 0">
-      <parent-analyse-item :obj="singleAnalyseList[1]" />
-      <parent-analyse-item :obj="singleAnalyseList[2]" />
-      <parent-analyse-item :obj="singleAnalyseList[3]" />
-      <parent-analyse-item :obj="singleAnalyseList[4]" />
-      <parent-analyse-item :obj="singleAnalyseList[5]" />
-    </div>
-    <div id="boxThree" class="box-three">
-      <div class="top" v-if="singleAnalyseList.length > 0">
-        <parent-analyse-item :obj="singleAnalyseList[6]" />
-        <parent-analyse-item :obj="singleAnalyseList[7]" />
-        <div class="title">方案建议</div>
-        <suggestion :list="suggestionData" />
-      </div>
-      <div class="bottom">
-        <img class="wx-code" src="../assets/wxcod.jpg" />
-        <div class="center">
-          <div class="c-name">扫码关注小程序</div>
-          <div class="c-desc">获取电子报告和更多优质课程</div>
-        </div>
-        <div class="right">
           <img class="logo" src="../assets/img/logo.png" />
-          <div class="r-name">技术支持：享智云</div>
+        </div>
+        <div class="content">
+          <div class="school-title"><div>{{obj.basicDto.studentName}}</div><i class="iconfont iconnan" :class="{iconnan: obj.basicDto.sex === 1, iconnv: obj.basicDto.sex === 2}" /></div>
+          <div class="school-info">
+            <div class="name">班级：</div>
+            <div class="desc">{{obj.basicDto.schoolName}}</div>
+            <div class="name">班级：</div>
+            <div class="desc">{{obj.basicDto.className}}</div>
+            <div class="name">年龄：</div>
+            <div class="desc">{{obj.basicDto.age}}岁</div>
+            <div class="name">测试时间：</div>
+            <div class="desc">{{obj.basicDto.date | formatDate('YYYY/MM/DD')}}</div>
+          </div>
+          <div class="chart-box">
+            <div class="chart-item">
+              <circle-chart v-if="circleData" :obj="circleData" />
+            </div>
+            <div class="chart-item">
+              <parent-radar v-if="radarData" :obj="radarData" />
+            </div>
+          </div>
+          <div class="single-data">
+            <div class="single-title">单项分析</div>
+            <div class="single-one">
+              <parent-analyse-item v-if="singleAnalyseList.length > 0" :obj="singleAnalyseList[0]" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box-two" v-if="singleAnalyseList.length > 0">
+        <parent-analyse-item :obj="singleAnalyseList[1]" />
+        <parent-analyse-item :obj="singleAnalyseList[2]" />
+        <parent-analyse-item :obj="singleAnalyseList[3]" />
+        <parent-analyse-item :obj="singleAnalyseList[4]" />
+        <parent-analyse-item :obj="singleAnalyseList[5]" />
+      </div>
+      <div class="box-three">
+        <div class="top" v-if="singleAnalyseList.length > 0">
+          <parent-analyse-item :obj="singleAnalyseList[6]" />
+          <parent-analyse-item :obj="singleAnalyseList[7]" />
+          <div class="title">方案建议</div>
+          <suggestion :list="suggestionData" />
+        </div>
+        <div class="bottom">
+          <img class="wx-code" src="../assets/wxcod.jpg" />
+          <div class="center">
+            <div class="c-name">扫码关注小程序</div>
+            <div class="c-desc">获取电子报告和更多优质课程</div>
+          </div>
+          <div class="right">
+            <img class="logo" src="../assets/img/logo.png" />
+            <div class="r-name">技术支持：享智云</div>
+          </div>
         </div>
       </div>
     </div>
@@ -67,6 +69,7 @@
 
 <script>
 import html2canvas from 'html2canvas'
+import JsPDF from 'jspdf'
 import circleChart from '@/components/personalCircle'
 import parentRadar from '@/components/parentRadar'
 import parentAnalyseItem from '@/components/parentAnalyseItem'
@@ -94,36 +97,52 @@ export default {
       circleData: null,
       radarData: null,
       singleAnalyseList: [],
-      suggestionData: [],
-      index: 0
+      suggestionData: []
     }
   },
   methods: {
-    drawCanvas (idx) {
-      let elmentId = ['boxOne', 'boxTwo', 'boxThree'][idx]
-      html2canvas(document.getElementById(elmentId)).then(res => {
-        this.download(res, `${this.obj.basicDto.studentName}-${idx + 1}`)
+    drawCanvas () {
+      html2canvas(document.getElementById('download')).then(res => {
+        this.downloadPdf(res, `${this.obj.basicDto.studentName}`)
       })
     },
-    download (canvasElement, fileName) {
-      let MIME_TYPE = 'image/jpeg'
-      let imgURL = canvasElement.toDataURL(MIME_TYPE)
-      let dlLink = document.createElement('a')
-      dlLink.download = fileName
-      dlLink.href = imgURL
-      dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':')
-
-      document.body.appendChild(dlLink)
-      dlLink.click()
-      document.body.removeChild(dlLink)
-      if (this.index > 1) {
-        this.index = 1
-        this.$emit('over')
+    downloadPdf (canvas, fileName) {
+      let contentWidth = canvas.width
+      let contentHeight = canvas.height
+      let pageHeight = contentWidth / 594 * 841.89
+      let leftHeight = contentHeight
+      let position = 0
+      let imgWidth = 595.28
+      let imgHeight = 595/contentWidth * contentHeight
+      let pageData = canvas.toDataURL('image/jpeg', 1.0)
+      let pdf = new JsPDF('', 'pt', 'a4')
+      if (leftHeight < pageHeight) {
+        pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
       } else {
-        this.index += 1
-        this.drawCanvas(this.index)
+        while (leftHeight > 0) {
+          pdf.addImage(pageData, 'JPEG', 0, position, imgWidth, imgHeight)
+          leftHeight -= pageHeight
+          position -= 841.89
+          if (leftHeight > 0) {
+            pdf.addPage()
+          }
+        }
       }
-    }
+      pdf.save(`${fileName}.pdf`)
+      this.$emit('over')
+    },
+    // download (canvasElement, fileName) {
+    //   let MIME_TYPE = 'image/jpeg'
+    //   let imgURL = canvasElement.toDataURL(MIME_TYPE)
+    //   let dlLink = document.createElement('a')
+    //   dlLink.download = fileName
+    //   dlLink.href = imgURL
+    //   dlLink.dataset.downloadurl = [MIME_TYPE, dlLink.download, dlLink.href].join(':')
+
+    //   document.body.appendChild(dlLink)
+    //   dlLink.click()
+    //   document.body.removeChild(dlLink)
+    // }
   },
   created () {
     this.circleData = {
@@ -259,16 +278,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.download {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.download-box {
   position: fixed;
+  width: 1190px;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100vh;
-  z-index: 1000;
   opacity: 0;
 }
 .box-one {

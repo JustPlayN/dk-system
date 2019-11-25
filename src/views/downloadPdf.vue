@@ -28,7 +28,7 @@
     <download v-if="dataIndex > -1 && downloading" :obj="parentData[dataIndex]" @over="getNowData()" />
     <div class="loading" v-if="dataIndex > -1">
       <i class="el-icon-loading"></i>
-      <div class="text">二维码生成中, 请等待</div>
+      <div class="text">PDF生成中, 请等待</div>
     </div>
   </div>
 </template>
@@ -69,7 +69,6 @@ export default {
       }
     },
     change (val, type) {
-      console.log(val, type)
       if (val) {
         if (type === 1) {
           this.gradeId = ''

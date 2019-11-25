@@ -2,8 +2,8 @@
   <div class="personal-anaylse-item">
     <div class="top border-b">
       <img class="icon" :src="obj.iconUrl" />
-      <div class="name">
-        {{obj.name}}
+      <div class="name-box">
+        <div class="name">{{obj.name}}</div>
         <div class="desc" v-if="obj.desc">（{{obj.desc}}）</div>
       </div>
       <div class="average bad" v-if="obj.segment === '需努力'">{{obj.value}}{{obj.unit}}</div>
@@ -113,21 +113,26 @@ export default {
       height: 32px;
       margin-right: 16px;
     }
-    .name {
+    .name-box {
       display: flex;
       align-items: center;
       flex-grow: 1;
+    }
+    .name {
       font-size: 26px;
       line-height: 36px;
+      padding-bottom: 9px;
       font-weight: bold;
     }
     .desc {
       font-size: 18px;
+      padding-bottom: 6px;
       font-weight: normal;
     }
     .average {
       margin-right: 16px;
       font-size: 26px;
+      padding-bottom: 4px;
       line-height: 40px;
       font-weight: bold;
       color: #0DE18C;
@@ -143,7 +148,7 @@ export default {
     }
     .tag {
       height: 28px;
-      padding: 4px 12px;
+      padding: 2px 12px 4px;
       color: #fff;
       border-radius: 5px;
       background: #0DE18C;
