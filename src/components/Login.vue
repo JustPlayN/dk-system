@@ -41,7 +41,8 @@ export default {
             token: res.data.token,
             roleId: roleId,
             userName: res.data.userName,
-            phone: this.phone
+            phone: this.phone,
+            schoolId: res.data.schoolId || ''
           }
           this.$utils.setCookie('token', userInfo.token, 86400)
           this.$utils.setCookie('roleId', roleId, 86400)

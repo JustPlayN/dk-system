@@ -155,6 +155,9 @@ export default {
           children: [{
             title: '体测数据列表',
             router: '/test'
+          }, {
+            title: '家长pdf下载',
+            router: '/pdf'
           }]
         }, {
           title: '账号设置',

@@ -1,13 +1,13 @@
 <template>
   <div class="downloadPdf">
     <el-form class="not-inline" label-width="240px" size="medium">
-      <el-form-item label="选择单位：" required>
+      <el-form-item label="选择单位：" required v-if="userInfo.roleId === '1'">
         <el-select v-model="companyId" clearable placeholder="请选择" @change="change($event, 1)">
           <el-option v-for="item in companyList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
       <el-form-item label="选择年级：" required>
-        <el-select v-model="gradeId" clearable placeholder="请选择" :disabled="!companyId" @change="change($event, 2)">
+        <el-select v-model="gradeId" clearable placeholder="请选择" :disabled="!companyId && gradeList.length === 0" @change="change($event, 2)">
           <el-option v-for="item in gradeList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
@@ -35,6 +35,7 @@
 
 <script>
 import download from '@/components/download'
+import { mapGetters } from 'vuex'
 export default {
   components: {
     download
@@ -55,6 +56,9 @@ export default {
       loading: false
     }
   },
+  computed: {
+    ...mapGetters(['userInfo'])
+  },
   methods: {
     getNowData () {
       if (this.dataIndex < this.parentData.length - 1) {
@@ -74,13 +78,16 @@ export default {
           this.gradeId = ''
           this.classId = ''
           this.date = ''
+          this.gradeList = []
           this.getGradeList(val)
         } else if (type === 2) {
           this.classId = ''
           this.date = ''
+          this.classList = []
           this.getClassList(val)
         } else {
           this.date = ''
+          this.dateList = []
           this.getDateList(val)
         }
       }
@@ -163,7 +170,11 @@ export default {
   },
   created () {
     this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
-    this.getCompanyList()
+    if (this.userInfo.roleId === '1') {
+      this.getCompanyList()
+    } else {
+      this.getGradeList(this.userInfo.schoolId)
+    }
   }
 }
 </script>
