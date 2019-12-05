@@ -158,6 +158,9 @@ export default {
           }, {
             title: '家长pdf下载',
             router: '/pdf'
+          }, {
+            title: '班级pdf下载',
+            router: '/classPdf'
           }]
         }, {
           title: '账号设置',
