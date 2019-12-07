@@ -157,7 +157,6 @@ export default {
     },
   },
   created () {
-    console.log(this.obj)
     this.classPieData = [
       { value: this.obj.basicDto.excellentNum, name: '优秀' },
       { value: this.obj.basicDto.goodNum, name: '良好' },
