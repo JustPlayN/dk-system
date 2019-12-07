@@ -12,19 +12,19 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="getClassData">下载</el-button>
+        <el-button type="primary" @click="getSchoolData">下载</el-button>
       </el-form-item>
     </el-form>
-    <download v-if="dataIndex > -1 && downloading" :obj="classData[dataIndex]" @over="getNowData()" />
-    <div class="loading" v-if="loading || dataIndex > -1">
+    <download v-if="schoolData" :obj="schoolData" @over="getNowData()" />
+    <!-- <div class="loading" v-if="loading || schoolData">
       <i class="el-icon-loading"></i>
       <div class="text">PDF生成中, 请等待</div>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import download from '@/components/classDownload'
+import download from '@/components/schoolDownload'
 import { mapGetters } from 'vuex'
 export default {
   components: {
@@ -36,9 +36,7 @@ export default {
       companyId: '',
       dateList: [],
       date: '',
-      classData: [],
-      dataIndex: -1,
-      downloading: false,
+      schoolData: null,
       loading: false
     }
   },
@@ -47,16 +45,7 @@ export default {
   },
   methods: {
     getNowData () {
-      if (this.dataIndex < this.classData.length - 1) {
-        this.downloading = false
-        setTimeout(() => {
-          this.dataIndex ++
-          this.downloading = true
-        })
-      } else {
-        this.dataIndex = -1
-        this.downloading = false
-      }
+      this.schoolData = null
     },
     change (val) {
       if (val) {
@@ -87,7 +76,7 @@ export default {
         }
       })
     },
-    getClassData () {
+    getSchoolData () {
       if (this.loading) {
         return
       }
@@ -96,18 +85,14 @@ export default {
         return
       }
       this.loading = true
-      this.$api.post('/physical-report/class/report/pdf', {
+      this.$api.post('physical-report/school/report/pdf', {
         data: {
           schoolId: this.companyId || this.userInfo.schoolId,
           date: this.date
         }
       }).then(res => {
         if (res.code === '00000') {
-          this.classData = res.data || []
-          if (this.classData.length > 0) {
-            this.dataIndex = 0
-            this.downloading = true
-          }
+          this.schoolData = res.data || null
           this.loading = false
         } else {
           this.loading = false

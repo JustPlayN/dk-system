@@ -26,7 +26,7 @@
       </el-form-item>
     </el-form>
     <download v-if="dataIndex > -1 && downloading" :obj="parentData[dataIndex]" @over="getNowData()" />
-    <div class="loading" v-if="dataIndex > -1">
+    <div class="loading" v-if="loading || dataIndex > -1">
       <i class="el-icon-loading"></i>
       <div class="text">PDF生成中, 请等待</div>
     </div>

@@ -100,6 +100,12 @@ export default {
           }, {
             title: '家长pdf下载',
             router: '/pdf'
+          }, {
+            title: '班级pdf下载',
+            router: '/classPdf'
+          }, {
+            title: '园所pdf下载',
+            router: '/schoolPdf'
           }]
         }, {
           title: '公告管理',
@@ -161,6 +167,9 @@ export default {
           }, {
             title: '班级pdf下载',
             router: '/classPdf'
+          }, {
+            title: '园所pdf下载',
+            router: '/schoolPdf'
           }]
         }, {
           title: '账号设置',

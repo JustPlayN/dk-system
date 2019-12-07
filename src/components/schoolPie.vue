@@ -1,7 +1,7 @@
 <template>
-  <div class="class-pie">
+  <div class="school-pie">
     <div class="pie-box">
-      <div id="classPie"></div>
+      <div id="schoolPie"></div>
     </div>
   </div>
 </template>
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     paintChart () {
-      let myChart = echarts.init(document.getElementById('classPie'))
+      let myChart = echarts.init(document.getElementById('schoolPie'))
       this.options.series[0].data = this.list
       myChart.setOption(this.options)
     }
@@ -61,7 +61,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.class-pie {
+.school-pie {
   width: 560px;
   border-radius: 16px 0 16px 0;
   background: #fff;
@@ -70,7 +70,7 @@ export default {
     border-radius: 16px;
     background: #F5F8FF;
   }
-  #classPie {
+  #schoolPie {
     height: 560px;
   }
 }

@@ -70,6 +70,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "test" */ './views/classPdf.vue')
     },
     {
+      path: '/schoolPdf',
+      name: 'schoolPdf',
+      component: () => import(/* webpackChunkName: "test" */ './views/schoolPdf.vue')
+    },
+    {
       path: '/setting',
       name: 'setting',
       component: () => import(/* webpackChunkName: "setting" */ './views/setting.vue')

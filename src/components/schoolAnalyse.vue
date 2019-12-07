@@ -19,7 +19,7 @@
       <div class="content">
         <div class="progress-box" v-if="obj.elId !== 'sg' && obj.elId !== 'tz' && obj.elId !== 'bmi'">
           <div class="p-desc">
-            全班合格人数<span class="red">{{obj.qualifiedNum}}人</span>，
+            全校合格人数<span class="red">{{obj.qualifiedNum}}人</span>，
             合格率<span class="red">{{obj.qualifiedPercent}}%</span>
           </div>
           <div class="process bad" v-if="obj.level === '需努力'">
@@ -56,9 +56,7 @@ export default {
     classLine
   },
   props: {
-    obj: {
-      type: Object
-    }
+    obj: Object
   },
   data () {
     return {
@@ -165,7 +163,6 @@ export default {
         position: relative;
         .processer {
           height: 16px;
-          min-width: 20px;
           background: rgba(13, 225, 140, 1);
           border-radius: 16px;
         }

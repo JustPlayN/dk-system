@@ -14,30 +14,32 @@
       <div class="item-96">坐位体前屈<br>(柔韧性/cm)</div>
       <div class="item-96">走平衡木<br>(平衡力/s)</div>
     </div>
-    <div class="table-tr border-b" v-for="item in 27" :key="item">
-      <div class="item-60">{{item}}</div>
-      <div class="item-60">2</div>
-      <div class="item-60">3</div>
-      <div class="item-60">男</div>
-      <div class="item-60">122</div>
-      <div class="item-60">64</div>
-      <div class="item-96">10</div>
-      <div class="item-96">120</div>
-      <div class="item-96">50</div>
-      <div class="item-96">22</div>
-      <div class="item-96">12</div>
-      <div class="item-96">10</div>
+    <div class="table-tr border-b" v-for="(item, num) in list" :key="`record${num}`">
+      <div class="item-60">{{num + 27 * (index - 1) + 1}}</div>
+      <div class="item-60">{{item.studentName}}</div>
+      <div class="item-60">{{item.age}}</div>
+      <div class="item-60">{{item.sex}}</div>
+      <div class="item-60">{{item.height}}</div>
+      <div class="item-60">{{item.weight}}</div>
+      <div class="item-96">{{item.shuttleRun}}</div>
+      <div class="item-96">{{item.standJump}}</div>
+      <div class="item-96">{{item.tennisAway}}</div>
+      <div class="item-96">{{item.bothLegsJump}}</div>
+      <div class="item-96">{{item.sitBend}}</div>
+      <div class="item-96">{{item.balanceBean}}</div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  data () {
-    return {
-      list: []
+  props: {
+    list: Array,
+    index: {      // 第index张表
+      type: Number,
+      default: 1
     }
-  },
+  }
 }
 </script>
 

@@ -74,6 +74,8 @@ import circleChart from '@/components/personalCircle'
 import parentRadar from '@/components/parentRadar'
 import parentAnalyseItem from '@/components/parentAnalyseItem'
 import suggestion from '@/components/suggestion'
+
+// 图片
 import sg from '../assets/img/sg.png'
 import tz from '../assets/img/tz.png'
 import wfp from '../assets/img/wfp.png'
@@ -103,7 +105,7 @@ export default {
   methods: {
     drawCanvas () {
       html2canvas(document.getElementById('download')).then(res => {
-        this.downloadPdf(res, `${this.obj.basicDto.studentName}`)
+        this.downloadPdf(res, this.obj.basicDto.studentName)
       })
     },
     downloadPdf (canvas, fileName) {
@@ -263,14 +265,14 @@ export default {
     ]
     this.obj.proposalList.map(item => {
       if (item.id && item.id !== 2 && item.id !== 1) {
-        this.suggestionData.unshift(item)
+        this.suggestionData.push(item)
       }
     })
   },
   mounted () {
     this.$nextTick(function () {
       setTimeout(() => {
-        this.drawCanvas(this.index)
+        this.drawCanvas()
       }, 1000)
     })
   }

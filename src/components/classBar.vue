@@ -109,16 +109,16 @@ export default {
       let myChart = echarts.init(document.getElementById(this.obj.elId))
       if (this.obj.name === '身高') {
         this.options.dataset.source = [
-          { product: '偏矮', boy: 1, girl: 2 },
-          { product: '中等', boy: 12, girl: 6 },
-          { product: '偏高', boy: 8, girl: 3 },
-          { product: '超高', boy: 1, girl: 2 }
+          { product: '偏矮', boy: this.obj.dwarfMaleNum, girl: this.obj.dwarfFemaleNum },
+          { product: '中等', boy: this.obj.mediumMaleNum, girl: this.obj.mediumFemaleNum },
+          { product: '偏高', boy: this.obj.highMaleNum, girl: this.obj.highFemaleNum },
+          { product: '超高', boy: this.obj.superHighMaleNum, girl: this.obj.superHighFemaleNum }
         ]
       } else {
         this.options.dataset.source = [
-          { product: '偏瘦', boy: 1, girl: 2 },
-          { product: '正常', boy: 4, girl: 3 },
-          { product: '超重', boy: 2, girl: 5 }
+          { product: '偏瘦', boy: this.obj.thinMaleNum, girl: this.obj.thinFemaleNum },
+          { product: '正常', boy: this.obj.normalMaleNum, girl: this.obj.normalFemaleNum },
+          { product: '超重', boy: this.obj.overWeightMaleNum, girl: this.obj.overweightFemaleNum }
         ]
       }
       myChart.setOption(this.options)

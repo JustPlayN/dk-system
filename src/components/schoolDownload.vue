@@ -9,50 +9,62 @@
           </div>
           <img class="logo" src="../assets/img/logo.png" />
         </div>
-        <div class="school-title">{{obj.basicDto.schoolName}}</div>
+        <div class="school-title">{{obj.schoolName}}</div>
         <div class="school-info">
-          <div class="name">班级：</div>
-          <div class="desc">{{obj.basicDto.className}}</div>
-          <div class="name">测试时间：</div>
-          <div class="desc">{{obj.basicDto.testTime}}</div>
-          <div class="name">学生总数：</div>
-          <div class="desc">{{obj.basicDto.studentNum}}人</div>
+          <div class="name">参评班级：</div>
+          <div class="desc">{{obj.classNum}}个</div>
+          <div class="name">参评幼儿人数：</div>
+          <div class="desc">{{obj.studentNum}}人</div>
         </div>
         <div class="content">
           <div class="top">
-            <class-pie v-if="classPieData.length > 0" :list="classPieData" />
-            <class-radar v-if="classRadarData.length > 0" :list="classRadarData" />
+            <school-pie v-if="schoolPieData.length > 0" :list="schoolPieData" />
+            <school-radar v-if="schoolRadarData.length > 0" :list="schoolRadarData" />
           </div>
-          <div class="remark">{{obj.basicDto.summary}}</div>
-          <div class="sub-title">单项分析</div>
-          <analyse-item v-if="analyseList.length > 0" :obj="analyseList[0]" />
+          <div class="remark">{{obj.remark}}</div>
+          <div class="sub-title">班级测评概况</div>
+          <div class="pie-cantainer">
+            <item-pie v-for="item in analyseListData.slice(0, 2)" :key="item.elId" :obj="item" />
+          </div>
+        </div>
+      </div>
+      <div class="pdf-card pie-card" v-if="analyseListData.length > 2">
+        <div class="item-box">
+          <item-pie v-for="item in analyseListData.slice(2, 10)" :key="item.elId" :obj="item" />
+        </div>
+      </div>
+      <div class="pdf-card pie-card" v-if="analyseListData.length > 12">
+        <div class="item-box">
+          <item-pie v-for="item in analyseListData.slice(10, 18)" :key="item.elId" :obj="item" />
+        </div>
+      </div>
+      <div class="pdf-card pie-card" v-if="analyseListData.length > 22">
+        <div class="item-box">
+          <item-pie v-for="item in analyseListData.slice(18, 26)" :key="item.elId" :obj="item" />
+        </div>
+      </div>
+      <div class="pdf-card pie-card" v-if="analyseListData.length > 32">
+        <div class="item-box">
+          <item-pie v-for="item in analyseListData.slice(26, 34)" :key="item.elId" :obj="item" />
+        </div>
+      </div>
+      <div class="pdf-card rank-card">
+        <div class="sub-title">班级合格率排名</div>
+        <div class="rank-box">
+          <class-rank :list="passRateList" />
         </div>
       </div>
       <div class="pdf-card analyse-card">
-        <div class="text-card" v-if="bmiExplain">{{bmiExplain}}</div>
-        <template v-for="item in analyseList.slice(1, 5)">
-          <analyse-item  :key="item.elId" :obj="item" />
+        <div class="sub-title">单项分析</div>
+        <template v-for="item in analyseList.slice(0, 4)">
+          <analyse-item :key="item.elId" :obj="item" />
         </template>
       </div>
       <div class="pdf-card analyse-card">
-        <template v-for="item in analyseList.slice(5, 9)">
+        <template v-for="item in analyseList.slice(4, 8)">
           <analyse-item  :key="item.elId" :obj="item" />
         </template>
-        <template v-if="suggestionData.length > 0 && suggestionData.length < 3">
-          <div class="sub-title">方案建议</div>
-          <suggestion :list="suggestionData" />
-        </template>
-      </div>
-      <div class="pdf-card sugegest-card" v-if="suggestionData.length > 2">
-        <div class="sub-title">方案建议</div>
-        <suggestion :list="suggestionData" />
-      </div>
-      <div class="pdf-card table-card">
-        <div class="top">
-          <div class="sub-title">附表</div>
-          <class-table :list="recordList.slice(0, 27)" />
-        </div>
-        <div class="bottom" v-if="recordList.length < 28">
+        <div class="bottom" v-if="suggestionData.length === 0">
           <img class="wx-code" src="../assets/wxcod.jpg" />
           <div class="center">
             <div class="c-name">扫码关注小程序</div>
@@ -64,11 +76,9 @@
           </div>
         </div>
       </div>
-      <div class="pdf-card table-card" v-if="recordList.length > 27">
-        <div class="top">
-          <div class="sub-title">附表</div>
-          <class-table :list="recordList.slice(27, 54)" :index="2" />
-        </div>
+      <div class="pdf-card suggestion-card" v-if="suggestionData.length > 0">
+        <div class="sub-title">方案建议</div>
+        <suggestion :list="suggestionData" />
         <div class="bottom">
           <img class="wx-code" src="../assets/wxcod.jpg" />
           <div class="center">
@@ -88,11 +98,12 @@
 <script>
 import html2canvas from 'html2canvas'
 import JsPDF from 'jspdf'
-import classPie from '@/components/classPie'
-import classRadar from '@/components/classRadar'
-import analyseItem from '@/components/classAnalyse'
+import schoolPie from '@/components/schoolPie'
+import schoolRadar from '@/components/schoolRadar'
+import itemPie from '@/components/itemPie'
+import analyseItem from '@/components/schoolAnalyse'
+import classRank from '@/components/classRank'
 import suggestion from '@/components/suggestion'
-import classTable from '@/components/classTable'
 
 // 图片
 import sg from '../assets/img/sg.png'
@@ -108,26 +119,27 @@ export default {
     obj: Object
   },
   components: {
-    classPie,
-    classRadar,
+    schoolPie,
+    schoolRadar,
+    itemPie,
     analyseItem,
-    suggestion,
-    classTable
+    classRank,
+    suggestion
   },
   data () {
     return {
-      classPieData: [],
-      classRadarData: [],
-      bmiExplain: '',
+      schoolPieData: [],
+      schoolRadarData: [],
+      passRateList: [],
       suggestionData: [],
       analyseList: [],
-      recordList: []
+      analyseListData: []
     }
   },
   methods: {
     drawCanvas () {
       html2canvas(document.getElementById('download')).then(res => {
-        this.downloadPdf(res, this.obj.basicDto.className)
+        this.downloadPdf(res, this.obj.schoolName)
       })
     },
     downloadPdf (canvas, fileName) {
@@ -157,53 +169,35 @@ export default {
     },
   },
   created () {
-    console.log(this.obj)
-    this.classPieData = [
-      { value: this.obj.basicDto.excellentNum, name: '优秀' },
-      { value: this.obj.basicDto.goodNum, name: '良好' },
-      { value: this.obj.basicDto.qualifiedNum, name: '合格' },
-      { value: this.obj.basicDto.unQualifiedNum, name: '不合格' }
+    this.schoolPieData = [
+      { value: this.obj.fineNum, name: '优秀' },
+      { value: this.obj.goodNum, name: '良好' },
+      { value: this.obj.qualifiedNum, name: '合格' },
+      { value: this.obj.unQualifiedNum, name: '不合格' }
     ]
-    this.classRadarData = [
+    this.schoolRadarData = [
       {
         value: [
-          this.obj.basicDto.classAverageBalance,
-          this.obj.basicDto.classAverageHarmony,
-          this.obj.basicDto.classAverageWeight,
-          this.obj.basicDto.classAverageLegStrength,
-          this.obj.basicDto.classAverageLimbStrength,
-          this.obj.basicDto.classAverageSensitivity,
-          this.obj.basicDto.classAverageHeight,
-          this.obj.basicDto.classAverageFlex
+          this.obj.baseReportDto.balanceScore,
+          this.obj.baseReportDto.shuttleRunScore,
+          this.obj.baseReportDto.weightScore,
+          this.obj.baseReportDto.standJumpScore,
+          this.obj.baseReportDto.tennisAwayScore,
+          this.obj.baseReportDto.bothLegsJumpScore,
+          this.obj.baseReportDto.heightScore,
+          this.obj.baseReportDto.sitBendScore
         ],
-        name: '班级平均'
-      },
-      {
-        value: [
-          this.obj.basicDto.schoolAverageBalance,
-          this.obj.basicDto.schoolAverageHarmony,
-          this.obj.basicDto.schoolAverageWeight,
-          this.obj.basicDto.schoolAverageLegStrength,
-          this.obj.basicDto.schoolAverageLimbStrength,
-          this.obj.basicDto.schoolAverageSensitivity,
-          this.obj.basicDto.schoolAverageHeight,
-          this.obj.basicDto.schoolAverageFlex
-        ],
-        name: '园所平均'
+        name: '园所平均2'
       }
     ]
-    this.bmiExplain = this.obj.eachDto.bmi.remark
+    this.analyseListData = this.obj.classAnalysisList.map((item, index) => {
+      return {
+        ...item,
+        elId: `classPie${index}`
+      }
+    })
+    this.passRateList = this.obj.passRateList
     this.analyseList = [
-      {
-        ...this.obj.eachDto.bmi,
-        average: this.obj.eachDto.bmi.average,
-        iconUrl: sg,
-        name: '身体形态-BMI分布',
-        desc: '',
-        unit: 'cm',
-        elId: 'bmi',
-        remark: this.obj.eachDto.bmi.bmiExplain,
-      },
       {
         ...this.obj.eachDto.heightDto,
         average: this.obj.eachDto.heightDto.averageHeight,
@@ -276,13 +270,12 @@ export default {
         this.suggestionData.push(item)
       }
     })
-    this.recordList = this.obj.recordList || []
   },
   mounted () {
     this.$nextTick(function () {
       setTimeout(() => {
         this.drawCanvas()
-      }, 1000)
+      }, 2000)
     })
   }
 }
@@ -290,17 +283,19 @@ export default {
 
 <style lang="less" scoped>
 .class-download {
-  position: fixed;
+  // position: fixed;
   width: 1190px;
-  top: 0;
-  left: 0;
-  opacity: 0;
+  // top: 0;
+  // left: 0;
+  // opacity: 0;
 }
 .pdf-card {
   width: 1190px;
   height: 1684px;
   color: #484D57;
   background: #fff;
+  position: relative;
+  overflow: hidden;
   .content {
     padding: 40px 48px;
     .top {
@@ -328,9 +323,76 @@ export default {
     font-weight: bold;
     color: #17AFF3;
   }
+  .pie-cantainer {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+.bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  height: 176px;
+  background: #31BFFF;
+  color: #fff;
+  padding: 0 32px 0 48px;
+  .wx-code {
+    width: 114px;
+    height: 114px;
+    margin-right: 22px;
+  }
+  .center {
+    flex-grow: 1;
+    .c-name {
+      font-size: 26px;
+      line-height: 38px;
+    }
+    .c-desc {
+      font-size: 22px;
+      line-height: 30px;
+      margin-top: 8px;
+      color: rgba(255, 255, 255, .8);
+    }
+  }
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .logo {
+      width: 88px;
+      height: 88px;
+    }
+    .r-name {
+      margin-top: 16px;
+      font-size: 14px;
+      line-height: 18px;
+      color: rgba(255, 255, 255, .8);
+    }
+  }
+}
+.pie-card {
+  padding: 60px 48px 0;
+  .item-box {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+}
+.rank-card {
+  padding: 0 48px;
+  .rank-box {
+    margin-top: 16px;
+  }
 }
 .analyse-card {
   padding: 48px;
+  .sub-title {
+    margin: 0 0 16px;
+  }
   .text-card {
     padding: 24px 28px;
     margin-bottom: 16px;
@@ -340,57 +402,8 @@ export default {
     background: #F5F8FF;
   }
 }
-.sugegest-card {
-  padding: 1px 48px;
-}
-.table-card {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  .top {
-    padding: 0 48px;
-  }
-  .bottom {
-    display: flex;
-    align-items: center;
-    height: 176px;
-    background: #31BFFF;
-    color: #fff;
-    padding: 0 32px 0 48px;
-    .wx-code {
-      width: 114px;
-      height: 114px;
-      margin-right: 22px;
-    }
-    .center {
-      flex-grow: 1;
-      .c-name {
-        font-size: 26px;
-        line-height: 38px;
-      }
-      .c-desc {
-        font-size: 22px;
-        line-height: 30px;
-        margin-top: 8px;
-        color: rgba(255, 255, 255, .8);
-      }
-    }
-    .right {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      .logo {
-        width: 88px;
-        height: 88px;
-      }
-      .r-name {
-        margin-top: 16px;
-        font-size: 14px;
-        line-height: 18px;
-        color: rgba(255, 255, 255, .8);
-      }
-    }
-  }
+.suggestion-card {
+  padding: 0 48px;
 }
 .pdf-header {
   display: flex;

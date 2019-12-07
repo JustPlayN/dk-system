@@ -77,19 +77,7 @@ let options = {
       }
     }
   },
-  color: ['#38A8FF', '#FF6889'],
-  series: [
-    {
-      name: '男',
-      type: 'line',
-      data: [12, 13, 10, 4]
-    },
-    {
-      name: '女',
-      type: 'line',
-      data: [22, 18, 19, 3]
-    }
-  ]
+  color: ['#38A8FF', '#FF6889']
 }
 export default {
   props: {
@@ -104,6 +92,28 @@ export default {
   methods: {
     paintChart () {
       let myChart = echarts.init(document.getElementById(this.obj.elId))
+      this.options.series = [
+        {
+          name: '男',
+          type: 'line',
+          data: [
+            this.obj.maleThin,
+            this.obj.maleNormal,
+            this.obj.maleFatter,
+            this.obj.maleObesity
+          ]
+        },
+        {
+          name: '女',
+          type: 'line',
+          data: [
+            this.obj.femaleThin,
+            this.obj.femaleNormal,
+            this.obj.femaleFatter,
+            this.obj.femaleObesity
+          ]
+        }
+      ]
       myChart.setOption(this.options)
     }
   },

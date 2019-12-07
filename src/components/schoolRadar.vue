@@ -1,6 +1,6 @@
 <template>
-  <div class="class-radar">
-    <div id="classRadar"></div>
+  <div class="school-radar">
+    <div id="schoolRadar"></div>
   </div>
 </template>
 
@@ -67,7 +67,7 @@ export default {
   },
   methods: {
     paintChart () {
-      let myChart = echarts.init(document.getElementById('classRadar'))
+      let myChart = echarts.init(document.getElementById('schoolRadar'))
       this.options.series[0].data = this.list
       myChart.setOption(this.options)
     }
@@ -79,11 +79,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.class-radar {
+.school-radar {
   width: 530px;
   border-radius: 24px;
   background: #F5F8FF;
-  #classRadar {
+  #schoolRadar {
     height: 590px;
   }
   .desc {
