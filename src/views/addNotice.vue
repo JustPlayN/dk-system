@@ -42,9 +42,11 @@ export default {
         this.$message({ message: '请输入公告内容', type: 'error' })
         return
       } else if (!this.date) {
-        this.$message({ message: '请输入公告内容', type: 'error' })
+        this.$message({ message: '请输入公告时间', type: 'error' })
+        return
       } else if (!this.roleId || this.roleId.length === 0) {
         this.$message({ message: '请选择面向群体', type: 'error' })
+        return
       }
       this.$api.post('/physical-report/message/add', {
         data: {
