@@ -16,10 +16,10 @@
       </el-form-item>
     </el-form>
     <download v-if="schoolData" :obj="schoolData" @over="getNowData()" />
-    <!-- <div class="loading" v-if="loading || schoolData">
+    <div class="loading" v-if="loading || schoolData">
       <i class="el-icon-loading"></i>
       <div class="text">PDF生成中, 请等待</div>
-    </div> -->
+    </div>
   </div>
 </template>
 

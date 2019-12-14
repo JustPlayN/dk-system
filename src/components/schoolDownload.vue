@@ -283,11 +283,11 @@ export default {
 
 <style lang="less" scoped>
 .class-download {
-  // position: fixed;
+  position: fixed;
   width: 1190px;
-  // top: 0;
-  // left: 0;
-  // opacity: 0;
+  top: 0;
+  left: 0;
+  opacity: 0;
 }
 .pdf-card {
   width: 1190px;
