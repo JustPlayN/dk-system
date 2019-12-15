@@ -85,7 +85,7 @@ export default {
         return
       }
       this.loading = true
-      this.$api.post('physical-report/school/report/pdf', {
+      this.$api.post('/physical-report/school/report/pdf', {
         data: {
           schoolId: this.companyId || this.userInfo.schoolId,
           date: this.date
