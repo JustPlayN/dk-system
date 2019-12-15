@@ -90,8 +90,26 @@ let options = {
   },
   color: ['#38A8FF', '#FF6889'],
   series: [
-    { type: 'bar', barWidth: '20%' },
-    { type: 'bar', barWidth: '20%' }
+    {
+      type: 'bar',
+      barWidth: '20%',
+      label: {
+        normal: {
+          show: true,
+          position: 'top'
+        }
+      },
+    },
+    {
+      type: 'bar',
+      barWidth: '20%',
+      label: {
+        normal: {
+          show: true,
+          position: 'top'
+        }
+      },
+    }
   ]
 }
 export default {
