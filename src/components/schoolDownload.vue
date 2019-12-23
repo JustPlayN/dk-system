@@ -15,6 +15,8 @@
           <div class="desc">{{obj.classNum}}个</div>
           <div class="name">参评幼儿人数：</div>
           <div class="desc">{{obj.studentNum}}人</div>
+          <div class="name">测试时间：</div>
+          <div class="desc">{{obj.date}}</div>
         </div>
         <div class="content">
           <div class="top">
@@ -187,7 +189,7 @@ export default {
           this.obj.baseReportDto.heightScore,
           this.obj.baseReportDto.sitBendScore
         ],
-        name: '园所平均2'
+        name: '园所平均'
       }
     ]
     this.analyseListData = this.obj.classAnalysisList.map((item, index) => {

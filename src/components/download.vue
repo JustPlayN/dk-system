@@ -273,7 +273,7 @@ export default {
     this.$nextTick(function () {
       setTimeout(() => {
         this.drawCanvas()
-      }, 1000)
+      }, 2000)
     })
   }
 }
