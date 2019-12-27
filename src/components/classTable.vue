@@ -5,8 +5,10 @@
       <div class="item-60">姓名</div>
       <div class="item-60">年龄</div>
       <div class="item-60">性别</div>
-      <div class="item-60">身高</div>
-      <div class="item-60">体重</div>
+      <div class="item-60">成绩</div>
+      <div class="item-60">评估</div>
+      <div class="item-60">身高<br>(cm)</div>
+      <div class="item-60">体重<br>(kg)</div>
       <div class="item-96">10m折返跑<br>(灵敏性/s)</div>
       <div class="item-96">立定跳远<br>(下肢力量/cm)</div>
       <div class="item-96">网球掷远<br>(上肢力量/m)</div>
@@ -19,6 +21,8 @@
       <div class="item-60">{{item.studentName}}</div>
       <div class="item-60">{{item.age}}</div>
       <div class="item-60">{{item.sex}}</div>
+      <div class="item-60">{{item.score}}</div>
+      <div class="item-60">{{item.level}}</div>
       <div class="item-60">{{item.height}}</div>
       <div class="item-60">{{item.weight}}</div>
       <div class="item-96">{{item.shuttleRun}}</div>

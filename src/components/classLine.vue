@@ -96,6 +96,12 @@ export default {
         {
           name: '男',
           type: 'line',
+          label: {
+            normal: {
+              show: true,
+              position: 'top'
+            }
+          },
           data: [
             this.obj.maleThin,
             this.obj.maleNormal,
@@ -106,6 +112,12 @@ export default {
         {
           name: '女',
           type: 'line',
+          label: {
+            normal: {
+              show: true,
+              position: 'top'
+            }
+          },
           data: [
             this.obj.femaleThin,
             this.obj.femaleNormal,

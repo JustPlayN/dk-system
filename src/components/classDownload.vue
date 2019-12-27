@@ -199,7 +199,7 @@ export default {
         iconUrl: sg,
         name: '身体形态-BMI分布',
         desc: '',
-        unit: 'cm',
+        unit: 'kg/m²',
         elId: 'bmi',
         remark: this.obj.eachDto.bmi.bmiExplain,
       },
