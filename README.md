@@ -2,7 +2,7 @@
 
 ## Project setup
 ```
-npm install
+npm install：node版本v10.15.0
 ```
 
 ### Compiles and hot-reloads for development
