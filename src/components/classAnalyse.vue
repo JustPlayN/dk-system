@@ -9,11 +9,11 @@
       <div class="average bad" v-if="obj.level === '需努力'">平均{{obj.average}}{{obj.unit}}</div>
       <div class="average pass" v-else-if="obj.level === '合格'">平均{{obj.average}}{{obj.unit}}</div>
       <div class="average good" v-else-if="obj.level === '良好'">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average" v-else>平均{{obj.average}}{{obj.unit}}</div>
-      <div class="tag bad" v-if="obj.level === '需努力'">不合格</div>
+      <div class="average" v-else>{{obj.average}}{{obj.unit}}</div>
+      <!-- <div class="tag bad" v-if="obj.level === '需努力'">不合格</div>
       <div class="tag pass" v-else-if="obj.level === '合格'">合格</div>
       <div class="tag good" v-else-if="obj.level === '良好'">良好</div>
-      <div class="tag" v-else>优秀</div>
+      <div class="tag" v-else>优秀</div> -->
     </div>
     <div class="bottom">
       <div class="content">

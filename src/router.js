@@ -45,6 +45,11 @@ export default new Router({
       component: () => import(/* webpackChunkName: "teacher" */ './views/teacher.vue')
     },
     {
+      path: '/teacherDetail',
+      name: 'teacherDetail',
+      component: () => import(/* webpackChunkName: "teacher" */ './views/teacherDetail.vue')
+    },
+    {
       path: '/parent',
       name: 'parent',
       component: () => import(/* webpackChunkName: "parent" */ './views/parent.vue')
@@ -53,6 +58,11 @@ export default new Router({
       path: '/children',
       name: 'children',
       component: () => import(/* webpackChunkName: "children" */ './views/children.vue')
+    },
+    {
+      path: '/childDetail',
+      name: 'childDetail',
+      component: () => import(/* webpackChunkName: "children" */ './views/childDetail.vue')
     },
     {
       path: '/test',

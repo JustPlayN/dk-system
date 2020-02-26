@@ -51,6 +51,7 @@
       <el-table-column prop="fieldValue" label="成绩" width="100px"></el-table-column>
       <el-table-column prop="score" label="得分" width="80px"></el-table-column>
       <el-table-column prop="parentPhone" label="家长手机号"></el-table-column>
+      <el-table-column prop="deviceCode" label="设备id"></el-table-column>
       <el-table-column prop="teacherPhone" label="老师手机号"></el-table-column>
       <el-table-column prop="schoolName" label="所属单位"></el-table-column>
       <el-table-column label="体测时间" width="100px">

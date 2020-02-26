@@ -11,10 +11,10 @@
         </el-select>
       </el-form-item>
       <el-form-item label="家长手机号：" prop="parentPhone">
-        <el-input v-model="searchObj.parentPhone"></el-input>
+        <el-input v-model="searchObj.parentPhone" maxlength="11"></el-input>
       </el-form-item>
       <el-form-item label="老师手机号：" prop="teacherPhone">
-        <el-input v-model="searchObj.teacherPhone"></el-input>
+        <el-input v-model="searchObj.teacherPhone" maxlength="11"></el-input>
       </el-form-item>
       <el-form-item label="所属单位" prop="schoolId" v-if="userInfo.roleId === '1'">
         <el-select v-model="searchObj.schoolId" clearable placeholder="请选择" @change="change">
@@ -51,9 +51,10 @@
         <el-button type="primary" @click="search">搜索</el-button>
         <el-button @click="reset">重置</el-button>
         <el-button type="primary" @click="downLoadCode" v-if="userInfo.roleId === '1'">批量导出二维码</el-button>
+        <el-button type="primary" @click="toChildDetail('')">添加</el-button>
       </el-form-item>
     </el-form>
-    <el-row v-if="userInfo.roleId === '1'">
+    <el-row>
       <el-col :span="2">
         <el-upload
           class="upload-demo"
@@ -83,6 +84,8 @@
       <el-table-column prop="parentPhone" label="家长手机号"></el-table-column>
       <el-table-column label="操作" width="120px">
         <template slot-scope="scope">
+          <el-button type="text" size="small" @click="toChildDetail(scope.row.id)">编辑</el-button>
+          <el-button type="text" size="small" @click="deleteItem(scope.row.id)">删除</el-button>
           <el-button type="text" size="small" @click="changeCode(scope.row)">换绑</el-button>
           <el-button type="text" size="small" @click="qrCodeObj = scope.row" v-if="userInfo.roleId === '1'">手环二维码</el-button>
         </template>
@@ -136,6 +139,33 @@ export default {
   },
   methods: {
     ...mapActions(['putPage']),
+    toChildDetail (id) {
+      this.$router.push({
+        path: '/childDetail',
+        query: {
+          id,
+          dpath: this.$route.query.dpath || ''
+        }
+      })
+    },
+    deleteItem (id) {
+      this.$confirm('确定删除这个学生吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/physical-report/student/delete', {
+          data: { id }
+        }).then(res => {
+          if (res.code === '00000') {
+            this.search()
+            this.$message({ message: '删除成功', type: 'success' })
+          } else {
+            this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+          }
+        })
+      })
+    },
     closeCode () {
       if (this.index > 0) {
         this.downLoadCode()

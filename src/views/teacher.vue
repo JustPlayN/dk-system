@@ -5,7 +5,7 @@
         <el-input v-model.trim="searchObj.userName" clearable></el-input>
       </el-form-item>
       <el-form-item label="老师手机号：" prop="userPhone">
-        <el-input v-model.trim="searchObj.userPhone" clearable></el-input>
+        <el-input v-model.trim="searchObj.userPhone" clearable maxlength="11"></el-input>
       </el-form-item>
       <el-form-item label="所属单位：" prop="companyId" v-if="userInfo.roleId === '1'">
         <el-select v-model="searchObj.companyId" clearable placeholder="请选择" @change="change">
@@ -20,9 +20,10 @@
       <el-form-item>
         <el-button type="primary" @click="search">搜索</el-button>
         <el-button @click="reset">重置</el-button>
+        <el-button type="primary" @click="toTeacherDetail('')">新增</el-button>
       </el-form-item>
     </el-form>
-    <el-row v-if="userInfo.roleId === '1'">
+    <el-row>
       <el-col :span="2">
         <el-upload
           class="upload-demo"
@@ -43,6 +44,12 @@
       <el-table-column prop="companyName" label="所在单位"></el-table-column>
       <el-table-column prop="gradeName" label="年级"></el-table-column>
       <el-table-column prop="className" label="班级"></el-table-column>
+      <el-table-column label="操作" width="120px">
+        <template slot-scope="scope">
+          <el-button type="text" size="small" @click="toTeacherDetail(scope.row.id)">编辑</el-button>
+          <el-button type="text" size="small" @click="deleteItem(scope.row.id)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
     <el-row class="pagination-box">
       <el-pagination
@@ -79,6 +86,33 @@ export default {
   },
   methods: {
     ...mapActions(['putPage']),
+    deleteItem (id) {
+      this.$confirm('确定删除这个老师吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$api.post('/physical-report/teacher/delete', {
+          data: { id }
+        }).then(res => {
+          if (res.code === '00000') {
+            this.search()
+            this.$message({ message: '删除成功', type: 'success' })
+          } else {
+            this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+          }
+        })
+      })
+    },
+    toTeacherDetail (id) {
+      this.$router.push({
+        path: '/teacherDetail',
+        query: {
+          id,
+          dpath: this.$route.query.dpath || ''
+        }
+      })
+    },
     upload (res) {
       if (res.success) {
         this.search()
