@@ -13,11 +13,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="年级：" prop="gradeName">
-        <el-select v-model="detail.gradeName" placeholder="请选择">
-          <el-option value="大班">大班</el-option>
-          <el-option value="中班">中班</el-option>
-          <el-option value="小班">小班</el-option>
-        </el-select>
+        <el-input v-model.trim="detail.gradeName"></el-input>
       </el-form-item>
       <el-form-item label="班级：" prop="userName">
         <el-input v-model.trim="detail.className"></el-input>
@@ -54,7 +50,7 @@ export default {
           { required: true, message: '请选择省', trigger: 'change' }
         ],
         gradeName: [
-          { required: true, message: '请选择市', trigger: 'change' }
+          { required: true, message: '请选择市', trigger: 'blur' }
         ],
         className: [
           { required: true, message: '请选择单位', trigger: 'blur' }
@@ -127,6 +123,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     if (this.userInfo.roleId === '1') {
       this.getCompanyList()
     }

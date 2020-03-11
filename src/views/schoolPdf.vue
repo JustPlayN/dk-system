@@ -13,6 +13,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getSchoolData">下载</el-button>
+        <el-button type="primary" @click="setPdfText" v-if="userInfo.roleId === '2'">报告表头设置</el-button>
       </el-form-item>
     </el-form>
     <download v-if="schoolData" :obj="schoolData" @over="getNowData()" />
@@ -44,6 +45,14 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    setPdfText () {
+      this.$router.push({
+        path: '/title',
+        query: {
+          dpath: this.$route.query.dpath || ''
+        }
+      })
+    },
     getNowData () {
       this.schoolData = null
     },

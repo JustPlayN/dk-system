@@ -6,10 +6,26 @@
         <div class="name">{{obj.name}}</div>
         <span class="desc" v-if="obj.desc">（{{obj.desc}}）</span>
       </div>
-      <div class="average bad" v-if="obj.level === '需努力'">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average pass" v-else-if="obj.level === '合格'">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average good" v-else-if="obj.level === '良好'">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average" v-else>{{obj.average}}{{obj.unit}}</div>
+      <div class="average bad" v-if="obj.level === '需努力'">
+        平均{{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
+      <div class="average pass" v-else-if="obj.level === '合格'">
+        平均{{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
+      <div class="average good" v-else-if="obj.level === '良好'">
+        平均{{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
+      <div class="average" v-else>
+        {{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
       <!-- <div class="tag bad" v-if="obj.level === '需努力'">不合格</div>
       <div class="tag pass" v-else-if="obj.level === '合格'">合格</div>
       <div class="tag good" v-else-if="obj.level === '良好'">良好</div>
@@ -19,7 +35,9 @@
       <div class="content">
         <div class="progress-box" v-if="obj.elId !== 'sg' && obj.elId !== 'tz' && obj.elId !== 'bmi'">
           <div class="p-desc">
-            全班合格人数<span class="red">{{obj.qualifiedNum}}人</span>，
+            全班合格人数<text class="red">{{obj.qualifiedNum}}人</text>(较上次
+            <span v-if="obj.incQualifiedNum >= 0" class="red">+{{obj.incQualifiedNum}}</span>
+            <span v-else class="red">{{obj.incQualifiedNum}}</span>人)，
             合格率<span class="red">{{obj.qualifiedPercent}}%</span>
           </div>
           <div class="process bad" v-if="obj.level === '需努力'">

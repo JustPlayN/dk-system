@@ -5,10 +5,7 @@
         <div class="pdf-header">
           <div class="left">
             <div class="title">国民体质健康幼儿体质测试报告</div>
-            <div class="title-text">
-              智慧健康幼儿体测报告运用科学的方法对幼儿的形态、机能和身体素质等进行测试与评定，<br>
-              并提供有效的课程训练方案；始终坚持科学、规范、安全、便民，只为中国幼儿体质与素质健康发展。
-            </div>
+            <div class="title-text">{{obj.title}}</div>
           </div>
           <img class="logo" src="../assets/img/logo.png" />
         </div>
@@ -422,6 +419,7 @@ export default {
     line-height: 50px;
   }
   .title-text {
+    padding-right: 100px;
     margin-top: 16px;
     font-size: 20px;
     line-height: 28px;

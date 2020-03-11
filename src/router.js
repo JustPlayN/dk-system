@@ -93,6 +93,11 @@ export default new Router({
       path: '/password',
       name: 'password',
       component: () => import(/* webpackChunkName: "password" */ './views/password.vue')
+    },
+    {
+      path: '/title',
+      name: 'title',
+      component: () => import(/* webpackChunkName: "title" */ './views/title.vue')
     }
   ]
 })

@@ -16,7 +16,7 @@
           placeholder="选择日期">
         </el-date-picker>
       </el-form-item>
-      <el-form-item label="所属学校：" prop="schoolId" v-if="userInfo.roleId === '1'">
+      <el-form-item label="所属单位：" prop="schoolId" v-if="userInfo.roleId === '1'">
         <el-select v-model="detail.schoolId" clearable placeholder="请选择" @change="getCompanyList(1)">
           <el-option v-for="item in companyList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
@@ -117,6 +117,8 @@ export default {
       }).then(res => {
         if (res.code === '00000') {
           this.detail = res.data
+          this.getCompanyList(1)
+          this.getCompanyList(2)
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
         }
@@ -155,6 +157,7 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
     if (this.userInfo.roleId === '1') {
       this.getCompanyList(0)
     } else {
