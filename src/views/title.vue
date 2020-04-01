@@ -2,7 +2,7 @@
   <div class="title">
     <el-form class="not-inline" label-width="240px" size="medium">
       <el-form-item label="报告表头：" required="">
-        <el-input v-model.trim="title" type="textarea" :rows="3" maxlength="100"></el-input>
+        <el-input v-model.trim="title" type="textarea" :rows="4" maxlength="100"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="setPdfText">提交</el-button>
@@ -28,26 +28,36 @@ export default {
       this.$confirm('说明：一次设置，家长/班级/园所同时生效，不超过100字', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
-      }).then(({ value }) => {
-        if (value) {
-          this.$api.post('/physical-report/merchant/pdf/title', {
-            data: {
-              title: value
-            }
-          }).then(res => {
-            if (res.code === '00000') {
-              this.$router.back()
-              this.$message({ message: '设置成功', type: 'success' })
-            } else {
-              this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
-            }
-          })
-        }
+      }).then(() => {
+        this.$api.post('/physical-report/merchant/pdf/title', {
+          data: {
+            title: this.title
+          }
+        }).then(res => {
+          if (res.code === '00000') {
+            this.$router.back()
+            this.$message({ message: '设置成功', type: 'success' })
+          } else {
+            this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+          }
+        })
       })
     },
+    getPdfText () {
+      this.$api.post('/physical-report/merchant/pdf/title/info', {
+        data: {}
+      }).then(res => {
+        if (res.code === '00000') {
+          this.title = res.data
+        } else {
+          this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
+    }
   },
   created () {
     this.$store.dispatch('putDpath', this.$route.query.dpath || '1-1')
+    this.getPdfText()
   }
 }
 </script>

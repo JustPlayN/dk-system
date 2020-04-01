@@ -6,13 +6,13 @@
         <div class="name">{{obj.name}}</div>
         <span class="desc" v-if="obj.desc">（{{obj.desc}}）</span>
       </div>
-      <div class="average bad" v-if="obj.level === '需努力'">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average pass" v-else-if="obj.level === '合格'">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average good" v-else-if="obj.level === '良好'">平均{{obj.average}}{{obj.unit}}</div>
+      <div class="average bad" v-if="obj.qualifiedPercent < 60">平均{{obj.average}}{{obj.unit}}</div>
+      <div class="average pass" v-else-if="obj.qualifiedPercent < 80">平均{{obj.average}}{{obj.unit}}</div>
+      <div class="average good" v-else-if="obj.qualifiedPercent < 90">平均{{obj.average}}{{obj.unit}}</div>
       <div class="average" v-else>平均{{obj.average}}{{obj.unit}}</div>
-      <div class="tag bad" v-if="obj.level === '需努力'">不合格</div>
-      <div class="tag pass" v-else-if="obj.level === '合格'">合格</div>
-      <div class="tag good" v-else-if="obj.level === '良好'">良好</div>
+      <div class="tag bad" v-if="obj.qualifiedPercent < 60">不合格</div>
+      <div class="tag pass" v-else-if="obj.qualifiedPercent < 80">合格</div>
+      <div class="tag good" v-else-if="obj.qualifiedPercent < 90">良好</div>
       <div class="tag" v-else>优秀</div>
     </div>
     <div class="bottom">
@@ -22,13 +22,13 @@
             全校合格人数<span class="red">{{obj.qualifiedNum}}人</span>，
             合格率<span class="red">{{obj.qualifiedPercent}}%</span>
           </div>
-          <div class="process bad" v-if="obj.level === '需努力'">
+          <div class="process bad" v-if="obj.qualifiedPercent < 60">
             <div class="processer" :style="{width: `${obj.qualifiedPercent}%`}" />
           </div>
-          <div class="process pass" v-else-if="obj.level === '合格'">
+          <div class="process pass" v-else-if="obj.qualifiedPercent < 80">
             <div class="processer" :style="{width: `${obj.qualifiedPercent}%`}" />
           </div>
-          <div class="process good" v-else-if="obj.level === '良好'">
+          <div class="process good" v-else-if="obj.qualifiedPercent < 90">
             <div class="processer" :style="{width: `${obj.qualifiedPercent}%`}" />
           </div>
           <div class="process" v-else>

@@ -141,7 +141,9 @@ export default {
   methods: {
     drawCanvas () {
       html2canvas(document.getElementById('download')).then(res => {
-        this.downloadPdf(res, this.obj.schoolName)
+        setTimeout(() => {
+          this.downloadPdf(res, this.obj.schoolName)
+        }, 2000)
       })
     },
     downloadPdf (canvas, fileName) {
@@ -166,8 +168,10 @@ export default {
           }
         }
       }
-      pdf.save(`${fileName}.pdf`)
-      this.$emit('over')
+      setTimeout(() => {
+        pdf.save(`${fileName}.pdf`)
+        this.$emit('over')
+      }, 2000)
     },
   },
   created () {
@@ -277,7 +281,7 @@ export default {
     this.$nextTick(function () {
       setTimeout(() => {
         this.drawCanvas()
-      }, 3000)
+      }, 1000)
     })
   }
 }

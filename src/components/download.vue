@@ -105,7 +105,9 @@ export default {
   methods: {
     drawCanvas () {
       html2canvas(document.getElementById('download')).then(res => {
-        this.downloadPdf(res, this.obj.basicDto.studentName)
+        setTimeout(() => {
+          this.downloadPdf(res, this.obj.basicDto.studentName)
+        }, 2000)
       })
     },
     downloadPdf (canvas, fileName) {
@@ -130,8 +132,10 @@ export default {
           }
         }
       }
-      pdf.save(`${fileName}.pdf`)
-      this.$emit('over')
+      setTimeout(() => {
+        pdf.save(`${fileName}.pdf`)
+        this.$emit('over')
+      }, 2000)
     },
     // download (canvasElement, fileName) {
     //   let MIME_TYPE = 'image/jpeg'
@@ -273,7 +277,7 @@ export default {
     this.$nextTick(function () {
       setTimeout(() => {
         this.drawCanvas()
-      }, 3000)
+      }, 1000)
     })
   }
 }

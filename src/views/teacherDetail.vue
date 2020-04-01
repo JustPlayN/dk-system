@@ -12,12 +12,16 @@
           <el-option v-for="item in companyList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="年级：" prop="gradeName">
-        <el-input v-model.trim="detail.gradeName"></el-input>
-      </el-form-item>
-      <el-form-item label="班级：" prop="userName">
-        <el-input v-model.trim="detail.className"></el-input>
-      </el-form-item>
+      <template v-for="(item, index) in detail.classList">
+        <el-form-item label="年级：" :key="`grade${index}`" required>
+          <el-input v-model.trim="item.gradeName"></el-input>
+        </el-form-item>
+        <el-form-item label="班级：" :key="`class${index}`" required>
+          <el-input v-model.trim="item.className"></el-input>
+          <el-button type="text" @click="deleteClass" v-if="detail.classList.length > 1">删除</el-button>
+          <el-button type="text" @click="addClass" v-if="index === detail.classList.length - 1">+绑定更多班级</el-button>
+        </el-form-item>
+      </template>
       <el-form-item>
         <el-button type="primary" @click="submit">提交</el-button>
         <el-button @click="$router.back()">取消并返回</el-button>
@@ -35,8 +39,9 @@ export default {
         phone: '',
         userName: '',
         schoolId: '',
-        gradeName: '',
-        className: ''
+        classList: [
+          { gradeName: '', className: '' }
+        ],
       },
       companyList: [],
       rules: {
@@ -48,12 +53,6 @@ export default {
         ],
         schoolId: [
           { required: true, message: '请选择省', trigger: 'change' }
-        ],
-        gradeName: [
-          { required: true, message: '请选择市', trigger: 'blur' }
-        ],
-        className: [
-          { required: true, message: '请选择单位', trigger: 'blur' }
         ]
       }
     }
@@ -62,6 +61,12 @@ export default {
     ...mapGetters(['userInfo'])
   },
   methods: {
+    addClass () {
+      this.detail.classList.push({ gradeName: '', className: '' })
+    },
+    deleteClass (index) {
+      this.detail.classList.splice(index, 1)
+    },
     getCompanyList () {
       this.$api.post('/physical-report/class/list', {
         data: 0
@@ -93,14 +98,17 @@ export default {
         this.$message({ message: '请输入正确的手机号', type: 'error' })
         return
       }
+      if (this.detail.classList.some(item => !item.className || !item.gradeName)) {
+        this.$message({ message: '请完善年级班级信息', type: 'error' })
+        return
+      }
       this.$api.post('/physical-report/teacher/edit', {
         data: {
           id: this.$route.query.id || '',
           userName: this.detail.userName,
           phone: this.detail.phone,
           schoolId: this.detail.schoolId || this.userInfo.schoolId,
-          gradeName: this.detail.gradeName,
-          className: this.detail.className,
+          classList: this.detail.classList
         }
       }).then(res => {
         if (res.code === '00000') {
