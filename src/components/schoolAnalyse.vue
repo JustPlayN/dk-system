@@ -6,14 +6,22 @@
         <div class="name">{{obj.name}}</div>
         <span class="desc" v-if="obj.desc">（{{obj.desc}}）</span>
       </div>
-      <div class="average bad" v-if="obj.qualifiedPercent < 60">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average pass" v-else-if="obj.qualifiedPercent < 80">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average good" v-else-if="obj.qualifiedPercent < 90">平均{{obj.average}}{{obj.unit}}</div>
-      <div class="average" v-else>平均{{obj.average}}{{obj.unit}}</div>
-      <div class="tag bad" v-if="obj.qualifiedPercent < 60">不合格</div>
-      <div class="tag pass" v-else-if="obj.qualifiedPercent < 80">合格</div>
-      <div class="tag good" v-else-if="obj.qualifiedPercent < 90">良好</div>
-      <div class="tag" v-else>优秀</div>
+      <div class="average bad" v-if="obj.qualifiedPercent < 60">平均{{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
+      <div class="average pass" v-else-if="obj.qualifiedPercent < 80">平均{{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
+      <div class="average good" v-else-if="obj.qualifiedPercent < 90">平均{{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
+      <div class="average" v-else>平均{{obj.average}}{{obj.unit}}
+        <span v-if="obj.incNum > 0">(+{{obj.incNum}}{{obj.unit}})</span>
+        <span v-else-if="obj.incNum < 0">({{obj.incNum}}{{obj.unit}})</span>
+      </div>
     </div>
     <div class="bottom">
       <div class="content">

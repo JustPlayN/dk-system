@@ -18,7 +18,7 @@
         </el-form-item>
         <el-form-item label="班级：" :key="`class${index}`" required>
           <el-input v-model.trim="item.className"></el-input>
-          <el-button type="text" @click="deleteClass" v-if="detail.classList.length > 1">删除</el-button>
+          <el-button type="text" @click="deleteClass(index)" v-if="detail.classList.length > 1">删除</el-button>
           <el-button type="text" @click="addClass" v-if="index === detail.classList.length - 1">+绑定更多班级</el-button>
         </el-form-item>
       </template>

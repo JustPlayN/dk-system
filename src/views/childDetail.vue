@@ -31,8 +31,11 @@
           <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.id"></el-option>
         </el-select>
       </el-form-item>
+      <el-form-item label="手环Id：" prop="handCode">
+        <el-input v-model.trim="detail.handCode"></el-input>
+      </el-form-item>
       <el-form-item label="学号：" prop="studentNo">
-        <el-input v-model.trim="detail.studentNo"></el-input>
+        <el-input v-model.trim="detail.studentNo" :disabled="id !== ''"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submit">提交</el-button>
@@ -54,12 +57,17 @@ export default {
         birthday: null,      // 精确到毫秒
         gradeId: '',      // 年级
         classId: '',      // 班级
+        handCode: ''
       },
+      id: '',
       companyList: [],
       gradeList: [],
       classList: [],
       rules: {
         studentNo: [
+          { required: true, message: '请输入学号', trigger: 'blur' }
+        ],
+        handCode: [
           { required: true, message: '请输入学号', trigger: 'blur' }
         ],
         studentName: [
@@ -76,7 +84,7 @@ export default {
         ],
         classId: [
           { required: true, message: '请选择班级', trigger: 'change' }
-        ]
+        ],
       }
     }
   },
@@ -135,6 +143,7 @@ export default {
           birthday: this.detail.birthday,
           gradeId: this.detail.gradeId,
           classId: this.detail.classId,
+          handCode: this.detail.handCode,
         }
       }).then(res => {
         if (res.code === '00000') {
@@ -163,6 +172,7 @@ export default {
     } else {
       this.getCompanyList(1)
     }
+    this.id = this.$route.query.id || ''
     if (this.$route.query.id) {
       this.getTeacherInfo()
     }

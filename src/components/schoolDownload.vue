@@ -35,17 +35,17 @@
           <item-pie v-for="item in analyseListData.slice(2, 10)" :key="item.elId" :obj="item" />
         </div>
       </div>
-      <div class="pdf-card pie-card" v-if="analyseListData.length > 12">
+      <div class="pdf-card pie-card" v-if="analyseListData.length > 10">
         <div class="item-box">
           <item-pie v-for="item in analyseListData.slice(10, 18)" :key="item.elId" :obj="item" />
         </div>
       </div>
-      <div class="pdf-card pie-card" v-if="analyseListData.length > 22">
+      <div class="pdf-card pie-card" v-if="analyseListData.length > 18">
         <div class="item-box">
           <item-pie v-for="item in analyseListData.slice(18, 26)" :key="item.elId" :obj="item" />
         </div>
       </div>
-      <div class="pdf-card pie-card" v-if="analyseListData.length > 32">
+      <div class="pdf-card pie-card" v-if="analyseListData.length > 26">
         <div class="item-box">
           <item-pie v-for="item in analyseListData.slice(26, 34)" :key="item.elId" :obj="item" />
         </div>
@@ -143,7 +143,7 @@ export default {
       html2canvas(document.getElementById('download')).then(res => {
         setTimeout(() => {
           this.downloadPdf(res, this.obj.schoolName)
-        }, 2000)
+        }, 5000)
       })
     },
     downloadPdf (canvas, fileName) {
@@ -171,7 +171,7 @@ export default {
       setTimeout(() => {
         pdf.save(`${fileName}.pdf`)
         this.$emit('over')
-      }, 2000)
+      }, 5000)
     },
   },
   created () {

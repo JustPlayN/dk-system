@@ -3,16 +3,16 @@
     <div class="rank-item" v-for="(item, index) in list" :key="item.classId">
       <div class="class-name clamp-1">{{index + 1}}.{{item.className}}</div>
       <div class="process-box bad" v-if="item.rate < 0.6">
-        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate * 100}}%</div>
+        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate | accMul}}%</div>
       </div>
       <div class="process-box pass" v-else-if="item.rate < 0.8">
-        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate * 100}}%</div>
+        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate | accMul}}%</div>
       </div>
       <div class="process-box good" v-else-if="item.rate < 0.9">
-        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate * 100}}%</div>
+        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate | accMul}}%</div>
       </div>
       <div class="process-box" v-else>
-        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate * 100}}%</div>
+        <div class="processer" :style="{width: `${item.rate * 100}%`}">{{item.rate | accMul}}%</div>
       </div>
     </div>
   </div>

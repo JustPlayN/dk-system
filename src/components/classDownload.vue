@@ -129,7 +129,7 @@ export default {
       html2canvas(document.getElementById('download')).then(res => {
         setTimeout(() => {
           this.downloadPdf(res, this.obj.basicDto.className)
-        }, 2000)
+        }, 5000)
       })
     },
     downloadPdf (canvas, fileName) {
@@ -157,7 +157,7 @@ export default {
       setTimeout(() => {
         pdf.save(`${fileName}.pdf`)
         this.$emit('over')
-      }, 2000)
+      }, 5000)
     },
   },
   created () {
