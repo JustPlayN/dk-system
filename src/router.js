@@ -98,6 +98,16 @@ export default new Router({
       path: '/title',
       name: 'title',
       component: () => import(/* webpackChunkName: "title" */ './views/title.vue')
+    },
+    {
+      path: '/classPdfSingle',
+      name: 'classPdfSingle',
+      component: () => import(/* webpackChunkName: "classPdfSingle" */ './views/classPdfSingle.vue')
+    },
+    {
+      path: '/downloadPdfSingle',
+      name: 'downloadPdfSingle',
+      component: () => import(/* webpackChunkName: "downloadPdfSingle" */ './views/downloadPdfSingle.vue')
     }
   ]
 })

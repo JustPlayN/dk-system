@@ -15,7 +15,7 @@
           <el-option v-for="item in companyList" :label="item.name" :value="item.id" :key="item.id"></el-option>
         </el-select>
       </el-form-item>
-      <el-form-item label="测试范围：" prop="fieldId">
+      <el-form-item label="测试项目：" prop="fieldId">
         <el-select v-model="searchObj.fieldId" clearable placeholder="请选择">
           <el-option v-for="a in equipments" :label="a.deviceRange" :value="a.id" :key="a.id"></el-option>
         </el-select>
@@ -47,7 +47,7 @@
     <el-table :data="tableData" border header-row-class-name="table-header" size="medium">
       <el-table-column prop="studentNo" label="记录id"></el-table-column>
       <el-table-column prop="studentName" label="孩子姓名" width="100px"></el-table-column>
-      <el-table-column prop="fieldName" label="测试范围"></el-table-column>
+      <el-table-column prop="fieldName" label="测试项目"></el-table-column>
       <el-table-column prop="fieldValue" label="成绩" width="100px"></el-table-column>
       <el-table-column prop="score" label="得分" width="80px"></el-table-column>
       <el-table-column prop="parentPhone" label="家长手机号"></el-table-column>

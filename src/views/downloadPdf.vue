@@ -23,6 +23,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="getParentData">下载</el-button>
+        <el-button type="primary" @click="singleDownload">单个下载</el-button>
         <el-button type="primary" @click="setPdfText" v-if="userInfo.roleId === '2'">报告表头设置</el-button>
       </el-form-item>
     </el-form>
@@ -142,6 +143,23 @@ export default {
           this.dateList = res.data || []
         } else {
           this.$message({ message: res.msg || '网络异常请稍后重试', type: 'error' })
+        }
+      })
+    },
+    singleDownload () {
+      if (!this.classId) {
+        this.$message({ message: '请选择班级', type: 'error' })
+        return
+      } else if (!this.date) {
+        this.$message({ message: '请选体测日期', type: 'error' })
+        return
+      }
+      this.$router.push({
+        path: '/downloadPdfSingle',
+        query: {
+          dpath: this.$route.query.dpath || '',
+          classId: this.classId,
+          date: this.date
         }
       })
     },

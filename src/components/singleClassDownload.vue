@@ -1,87 +1,90 @@
 <template>
-  <div class="class-download">
-    <div id="download">
-      <div class="pdf-card">
-        <div class="pdf-header">
-          <div class="left">
-            <div class="title">国民体质健康幼儿体质测试报告</div>
-            <div class="title-text">{{obj.basicDto.title}}</div>
+  <div>
+    <div class="class-download">
+      <div id="download">
+        <div class="pdf-card">
+          <div class="pdf-header">
+            <div class="left">
+              <div class="title">国民体质健康幼儿体质测试报告</div>
+              <div class="title-text">{{obj.basicDto.title}}</div>
+            </div>
+            <img class="logo" src="../assets/img/logo.png" />
           </div>
-          <img class="logo" src="../assets/img/logo.png" />
-        </div>
-        <div class="school-title">{{obj.basicDto.schoolName}}</div>
-        <div class="school-info">
-          <div class="name">班级：</div>
-          <div class="desc">{{obj.basicDto.className}}</div>
-          <div class="name">测试时间：</div>
-          <div class="desc">{{obj.basicDto.testTime}}</div>
-          <div class="name">学生总数：</div>
-          <div class="desc">{{obj.basicDto.studentNum}}人</div>
-        </div>
-        <div class="content">
-          <div class="top">
-            <class-pie v-if="classPieData.length > 0" :list="classPieData" />
-            <class-radar v-if="classRadarData.length > 0" :list="classRadarData" />
+          <div class="school-title">{{obj.basicDto.schoolName}}</div>
+          <div class="school-info">
+            <div class="name">班级：</div>
+            <div class="desc">{{obj.basicDto.className}}</div>
+            <div class="name">测试时间：</div>
+            <div class="desc">{{obj.basicDto.testTime}}</div>
+            <div class="name">学生总数：</div>
+            <div class="desc">{{obj.basicDto.studentNum}}人</div>
           </div>
-          <div class="remark">{{obj.basicDto.summary}}</div>
-          <div class="sub-title">单项分析</div>
-          <analyse-item v-if="analyseList.length > 0" :obj="analyseList[0]" />
+          <div class="content">
+            <div class="top">
+              <class-pie v-if="classPieData.length > 0" :list="classPieData" />
+              <class-radar v-if="classRadarData.length > 0" :list="classRadarData" />
+            </div>
+            <div class="remark">{{obj.basicDto.summary}}</div>
+            <div class="sub-title">单项分析</div>
+            <analyse-item v-if="analyseList.length > 0" :obj="analyseList[0]" />
+          </div>
         </div>
-      </div>
-      <div class="pdf-card analyse-card">
-        <div class="text-card" v-if="bmiExplain">{{bmiExplain}}</div>
-        <template v-for="item in analyseList.slice(1, 5)">
-          <analyse-item  :key="item.elId" :obj="item" />
-        </template>
-      </div>
-      <div class="pdf-card analyse-card">
-        <template v-for="item in analyseList.slice(5, 9)">
-          <analyse-item  :key="item.elId" :obj="item" />
-        </template>
-        <template v-if="suggestionData.length > 0 && suggestionData.length < 3">
+        <div class="pdf-card analyse-card">
+          <div class="text-card" v-if="bmiExplain">{{bmiExplain}}</div>
+          <template v-for="item in analyseList.slice(1, 5)">
+            <analyse-item  :key="item.elId" :obj="item" />
+          </template>
+        </div>
+        <div class="pdf-card analyse-card">
+          <template v-for="item in analyseList.slice(5, 9)">
+            <analyse-item  :key="item.elId" :obj="item" />
+          </template>
+          <template v-if="suggestionData.length > 0 && suggestionData.length < 3">
+            <div class="sub-title">方案建议</div>
+            <suggestion :list="suggestionData" />
+          </template>
+        </div>
+        <div class="pdf-card sugegest-card" v-if="suggestionData.length > 2">
           <div class="sub-title">方案建议</div>
           <suggestion :list="suggestionData" />
-        </template>
-      </div>
-      <div class="pdf-card sugegest-card" v-if="suggestionData.length > 2">
-        <div class="sub-title">方案建议</div>
-        <suggestion :list="suggestionData" />
-      </div>
-      <div class="pdf-card table-card">
-        <div class="top">
-          <div class="sub-title">附表</div>
-          <class-table :list="recordList.slice(0, 27)" />
         </div>
-        <div class="bottom" v-if="recordList.length < 28">
-          <img class="wx-code" src="../assets/wxcod.jpg" />
-          <div class="center">
-            <div class="c-name">扫码关注小程序</div>
-            <div class="c-desc">获取电子报告和更多优质课程</div>
+        <div class="pdf-card table-card">
+          <div class="top">
+            <div class="sub-title">附表</div>
+            <class-table :list="recordList.slice(0, 27)" />
           </div>
-          <div class="right">
-            <img class="logo" src="../assets/img/logo.png" />
-            <div class="r-name">技术支持：享智云</div>
+          <div class="bottom" v-if="recordList.length < 28">
+            <img class="wx-code" src="../assets/wxcod.jpg" />
+            <div class="center">
+              <div class="c-name">扫码关注小程序</div>
+              <div class="c-desc">获取电子报告和更多优质课程</div>
+            </div>
+            <div class="right">
+              <img class="logo" src="../assets/img/logo.png" />
+              <div class="r-name">技术支持：享智云</div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="pdf-card table-card" v-if="recordList.length > 27">
-        <div class="top">
-          <div class="sub-title">附表</div>
-          <class-table :list="recordList.slice(27, 54)" :index="2" />
-        </div>
-        <div class="bottom">
-          <img class="wx-code" src="../assets/wxcod.jpg" />
-          <div class="center">
-            <div class="c-name">扫码关注小程序</div>
-            <div class="c-desc">获取电子报告和更多优质课程</div>
+        <div class="pdf-card table-card" v-if="recordList.length > 27">
+          <div class="top">
+            <div class="sub-title">附表</div>
+            <class-table :list="recordList.slice(27, 54)" :index="2" />
           </div>
-          <div class="right">
-            <img class="logo" src="../assets/img/logo.png" />
-            <div class="r-name">技术支持：享智云</div>
+          <div class="bottom">
+            <img class="wx-code" src="../assets/wxcod.jpg" />
+            <div class="center">
+              <div class="c-name">扫码关注小程序</div>
+              <div class="c-desc">获取电子报告和更多优质课程</div>
+            </div>
+            <div class="right">
+              <img class="logo" src="../assets/img/logo.png" />
+              <div class="r-name">技术支持：享智云</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div id="donwloadCanvas"></div>
   </div>
 </template>
 
@@ -121,26 +124,30 @@ export default {
       bmiExplain: '',
       suggestionData: [],
       analyseList: [],
-      recordList: []
+      recordList: [],
+      canvas: null
     }
   },
   methods: {
     drawCanvas () {
       html2canvas(document.getElementById('download')).then(res => {
-        setTimeout(() => {
-          this.downloadPdf(res, this.obj.basicDto.className)
-        }, 10000)
+        this.canvas = res
+        document.getElementById('donwloadCanvas').appendChild(res)
+        this.$emit('painted')
       })
     },
-    downloadPdf (canvas, fileName) {
-      let contentWidth = canvas.width
-      let contentHeight = canvas.height
+    downloadPdf () {
+      if (!this.canvas) {
+        return
+      }
+      let contentWidth = this.canvas.width
+      let contentHeight = this.canvas.height
       let pageHeight = contentWidth / 594 * 841.89
       let leftHeight = contentHeight
       let position = 0
       let imgWidth = 595.28
       let imgHeight = 595/contentWidth * contentHeight
-      let pageData = canvas.toDataURL('image/jpeg', 1.0)
+      let pageData = this.canvas.toDataURL('image/jpeg', 1.0)
       let pdf = new JsPDF('', 'pt', 'a4')
       if (leftHeight < pageHeight) {
         pdf.addImage(pageData, 'JPEG', 0, 0, imgWidth, imgHeight)
@@ -155,9 +162,9 @@ export default {
         }
       }
       setTimeout(() => {
-        pdf.save(`${fileName}.pdf`)
-        this.$emit('over')
-      }, 10000)
+        pdf.save(`${this.obj.basicDto.className}.pdf`)
+        this.$emit('download')
+      }, 400)
     },
   },
   created () {
@@ -285,7 +292,7 @@ export default {
     this.$nextTick(function () {
       setTimeout(() => {
         this.drawCanvas()
-      }, 10000)
+      }, 5000)
     })
   }
 }
@@ -295,7 +302,7 @@ export default {
 .class-download {
   position: fixed;
   width: 1190px;
-  top: 0;
+  top: 8000px;
   left: 0;
   opacity: 0;
 }

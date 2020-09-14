@@ -114,6 +114,7 @@ export default {
       font-weight: normal;
     }
     .average {
+      flex-shrink: 0;
       margin-right: 16px;
       font-size: 26px;
       padding-bottom: 4px;
